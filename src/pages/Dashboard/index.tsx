@@ -16,7 +16,6 @@ import CreateWallet from 'assets/img/create-wallet.svg';
 import OpenWallet from 'assets/img/open-wallet.svg';
 import wawe from 'assets/img/wawe.svg';
 import { providerTypes } from 'helpers/constants';
-import { uniqueContractAddress } from 'multisigConfig';
 import MultisigListItem from 'pages/Dashboard/MultisigListItem';
 import {
   multisigContractsFetchedSelector,
@@ -25,6 +24,7 @@ import {
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import { storageApi } from 'services/accessTokenServices';
 import { MultisigContractInfoType } from 'types/multisigContracts';
+import { uniqueContractAddress } from '../../config';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 
