@@ -223,8 +223,19 @@ const MultisigDetailsPage = () => {
       };
 
       const assignedTokenDataActions = await Promise.all(
-        newAllActions.map(assignTokenData)
+        newAllActions.map(async (item) => {
+          try {
+            return await assignTokenData(item);
+          } catch (error) {
+            console.error(error);
+            return null;
+          }
+        })
       );
+
+      const filteredActions = assignedTokenDataActions.filter(
+        (action) => action !== null
+      ) as Action[];
 
       const newContractInfo: ContractInfo = {
         totalBoardMembers: newTotalBoardMembers,
@@ -232,7 +243,7 @@ const MultisigDetailsPage = () => {
         quorumSize: newQuorumSize,
         userRole: newUserRole,
         deployedAt: moment.unix(accountInfo.deployedAt).format('DD MMM YYYY'),
-        allActions: assignedTokenDataActions,
+        allActions: filteredActions,
         multisigBalance: account.balance,
         boardMembersAddresses,
         proposersAddresses
