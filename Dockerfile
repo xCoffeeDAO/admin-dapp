@@ -1,10 +1,11 @@
 FROM node:16 as build
+ARG CONFIG_SETUP
 WORKDIR /usr/app
 COPY package.json .
 RUN touch .env
 COPY . .
 RUN npm rebuild node-sass
-RUN npm run copy-stage-config
+RUN npm run copy-${CONFIG_SETUP}-config
 RUN npm run build
 
 
