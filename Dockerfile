@@ -9,6 +9,7 @@ RUN npm run copy-${CONFIG_SETUP}-config
 RUN npm run build
 
 
+
 FROM node:16
 COPY --from=build /usr/app/build ./build
 COPY process.yml .
