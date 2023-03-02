@@ -4,9 +4,8 @@ import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
-import { dAppName } from 'config';
+import { dAppName, uniqueContractAddress } from 'config';
 import { routeNames } from 'routes';
-import { uniqueContractAddress } from '../../../multisigConfig';
 import Account from './Account';
 
 const Navbar = () => {

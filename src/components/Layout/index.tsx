@@ -10,12 +10,12 @@ import { useNavigate } from 'react-router-dom';
 import { getAccountData } from 'apiCalls/accountCalls';
 import { getEconomicsData } from 'apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
-import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
 import { setAccountData } from 'redux/slices/accountSlice';
 import { setEconomics } from 'redux/slices/economicsSlice';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import routes, { routeNames } from 'routes';
 import { accessTokenServices, storageApi } from 'services/accessTokenServices';
+import { uniqueContractAddress, uniqueContractName } from '../../config';
 import { TokenWrapper } from '../TokenWrapper';
 import Navbar from './Navbar';
 
