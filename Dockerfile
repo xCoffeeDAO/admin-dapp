@@ -6,6 +6,7 @@ RUN touch .env
 COPY . .
 RUN npm rebuild node-sass
 RUN npm run copy-${CONFIG_SETUP}-config
+RUN npm install
 RUN npm run build
 
 
