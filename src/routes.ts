@@ -70,9 +70,7 @@ const routes: RouteType[] = [
 
 const wrappedRoutes = () =>
   routes.map((route) => {
-    const title = route.title
-      ? `${route.title} • Elrond ${dAppName}`
-      : `Elrond ${dAppName}`;
+    const title = `${dAppName}`;
     return {
       path: route.path,
       authenticatedRoute: Boolean(route.authenticatedRoute),
