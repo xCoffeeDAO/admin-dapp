@@ -1,10 +1,9 @@
 import React from 'react';
 import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
-import { dAppName, uniqueContractAddress } from 'config';
 import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
+import { dAppName, uniqueContractAddress } from 'config';
 import { routeNames } from 'routes';
 import logo from '../../../assets/img/logo.png';
 import Account from './Account';

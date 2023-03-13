@@ -6,5 +6,5 @@ try {
   const multisigExtrasConfig = require('multisigExtrasConfig');
   storageApi = multisigExtrasConfig?.storageApi;
   maiarIdApi = multisigExtrasConfig?.maiarIdApi;
-  accessTokenServices = require('@elrondnetwork/dapp-core-internal');
+  accessTokenServices = require('@elrondnetwork/dapp-core');
 } catch (err) {}
