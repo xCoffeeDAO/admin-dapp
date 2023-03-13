@@ -7,6 +7,7 @@ export const gasPrice = 1000000000;
 export const version = 1;
 export const gasPriceModifier = '0.01';
 export const gasPerDataByte = '1500';
+export const chainID = 'D';
 export const gasLimit = 10_000_000;
 export const minGasLimit = 50_000;
 export const maxGasLimit = 1499999999;
@@ -19,13 +20,13 @@ export const issueTokenContractAddress =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u';
 
 export const network: NetworkType = {
-  id: 'mainnet',
-  name: 'Mainnet',
-  egldLabel: 'EGLD',
-  walletAddress: 'https://wallet.elrond.com/dapp/init',
-  apiAddress: 'https://api.elrond.com',
-  gatewayAddress: 'https://gateway.elrond.com',
-  explorerAddress: 'http://explorer.elrond.com'
+  id: 'devnet',
+  name: 'Devnet',
+  egldLabel: 'xEGLD',
+  walletAddress: 'https://devnet-wallet.elrond.com',
+  apiAddress: 'https://devnet-api.elrond.com',
+  gatewayAddress: 'https://devnet-gateway.elrond.com',
+  explorerAddress: 'http://devnet-explorer.elrond.com'
 };
 
 const networkSchema = object({
@@ -44,5 +45,7 @@ networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
   console.error(`Config invalid format for ${network.id}`, errors);
 });
 
-//add a valid contract address to make it exclusive, leave empty or null for default behaviour
-export const uniqueContractAddress = '';
+export const uniqueContractAddress =
+  'erd1qqqqqqqqqqqqqpgqdrz3tna8ylkz7z747uuffj6gfjtnk4kmp4eqppx53jxxx';
+//Optional, if you want to give a name to the visual representation of the contract
+export const uniqueContractName = 'xCoffeeDAO Multisig';

@@ -44,3 +44,6 @@ export type NetworkType = InferType<typeof networkSchema>;
 networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
   console.error(`Config invalid format for ${network.id}`, errors);
 });
+
+//add a valid contract address to make it exclusive, leave empty or null for default behaviour
+export const uniqueContractAddress = '';
