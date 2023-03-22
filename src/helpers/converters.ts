@@ -1,11 +1,3 @@
-import { Address, Nonce } from '@elrondnetwork/erdjs';
-import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
-import {
-  BigUIntType,
-  BytesValue,
-  U32Value,
-  U64Value
-} from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
 import BigNumber from 'bignumber.js';
 import { MultisigAction } from 'types/MultisigAction';
 import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
@@ -185,6 +177,7 @@ function parseSmartContractCall(
 
   return [action, remainingBytes];
 }
+
 function parseSmartContractDeployFromSource(
   remainingBytes: Buffer
 ): [MultisigAction | null, Buffer] {

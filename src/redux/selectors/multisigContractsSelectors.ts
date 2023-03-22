@@ -1,4 +1,3 @@
-import { Address } from '@elrondnetwork/erdjs/out';
 import { RootState } from '../store';
 import { createDeepEqualSelector } from './helpers';
 

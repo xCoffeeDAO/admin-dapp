@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
-import {
-  AuthenticatedRoutesWrapper,
-  refreshAccount,
-  useGetAccountInfo,
-  useGetLoginInfo
-} from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
+import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { AuthenticatedRoutesWrapper } from '@multiversx/sdk-dapp/wrappers';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAccountData } from 'apiCalls/accountCalls';
@@ -24,11 +21,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
-    address,
-    accessTokenServices?.maiarIdApi,
-    isLoggedIn
-  );
 
   const loggedIn = loginMethod != '';
   React.useEffect(() => {
@@ -45,7 +37,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     readMultisigContracts();
-  }, [address, isAuthenticated?.isAuthenticated]);
+  }, [address]);
 
   async function readMultisigContracts() {
     if (uniqueContractAddress || storageApi == null) {
@@ -57,7 +49,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       navigate('/multisig/' + uniqueContractAddress);
       return;
     }
-    if (isAuthenticated?.isAuthenticated) {
+    if (isLoggedIn) {
       const contracts = await getUserMultisigContractsList();
       dispatch(setMultisigContracts(contracts));
     }
@@ -88,7 +80,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         >
           {children}
         </AuthenticatedRoutesWrapper>
-        <TokenWrapper />
+        {/*<TokenWrapper />*/}
       </main>
     </div>
   );

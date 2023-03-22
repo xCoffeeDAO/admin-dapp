@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { transactionServices } from '@elrondnetwork/dapp-core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { addContractToMultisigContractsList } from 'apiCalls/multisigContractsCalls';
@@ -31,10 +31,11 @@ const DeployStepsModal = ({
   const [pendingDeploymentContractData, setPendingDeploymentContractData] =
     useState<PendingDeploymentContractData | null>(null);
 
-  transactionServices.useTrackTransactionStatus({
+  useTrackTransactionStatus({
     transactionId: pendingDeploymentContractData?.transactionId || null,
     onSuccess: onAddMultisigFinished
   });
+
   async function onAddMultisigFinished() {
     const { multisigAddress } = pendingDeploymentContractData!;
     const newContracts = await addContractToMultisigContractsList({
@@ -66,11 +67,11 @@ const DeployStepsModal = ({
       <div className='card'>
         <div className='card-body p-spacer '>
           <p className='h3 text-center' data-testid='delegateTitle'>
-            {t('Multisig Deployment')}
+            {String(t('Multisig Deployment'))}
           </p>
 
           <div className='modal-control-container'>
-            <label>{t('Name')}: </label>
+            <label>{String(t('Name'))}: </label>
             <input
               type='text'
               className='form-control'
@@ -86,7 +87,7 @@ const DeployStepsModal = ({
               className='btn btn-primary btn-light '
             >
               <FontAwesomeIcon icon={faTimes} />
-              {t('Cancel')}
+              {String(t('Cancel'))}
             </button>
             <button onClick={onDeploy} className='btn btn-primary mb-3'>
               Sign and Deploy

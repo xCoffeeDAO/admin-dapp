@@ -1,7 +1,7 @@
 import React from 'react';
-import { Ui } from '@elrondnetwork/dapp-utils';
 import { faExternalLinkAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Trim } from '@multiversx/sdk-dapp/UI';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { network } from '../../config';
@@ -20,12 +20,19 @@ const ConfirmUnregisterModal = ({
   address
 }: ConfirmUnregisterModalPropsType) => {
   const { t } = useTranslation();
+  const handleCloseWithEvent = (e: any) => {
+    handleClose(e);
+  };
+
+  const handleCloseWithoutEvent = () => {
+    handleCloseWithEvent(null); // or undefined, or any other default value
+  };
 
   return (
     <Modal
       size='lg'
       show={show}
-      onHide={handleClose}
+      onHide={handleCloseWithoutEvent}
       className='modal-container'
       animation={false}
       centered
@@ -33,10 +40,10 @@ const ConfirmUnregisterModal = ({
       <div className='card'>
         <div className='card-body '>
           <p className='h4 text-center' data-testid='confirmDeleteTitle'>
-            {t('Are you sure you want to unregister this contract?')}
+            {String(t('Are you sure you want to unregister this contract?'))}
           </p>
           <div className='mt-5 d-flex wallet-address'>
-            <Ui.Trim text={address} />
+            <Trim text={address} />
             <a
               href={`${network.explorerAddress}/accounts/${address}`}
               target='_blank'
@@ -53,10 +60,10 @@ const ConfirmUnregisterModal = ({
               className='btn btn-primary btn-light '
             >
               <FontAwesomeIcon icon={faTimes} />
-              {t('Cancel')}
+              {String(t('Cancel'))}
             </button>
             <button onClick={onConfirmed} className='btn btn-primary mb-3'>
-              {t('Confirm')}
+              {String(t('Confirm'))}
             </button>
           </div>
         </div>

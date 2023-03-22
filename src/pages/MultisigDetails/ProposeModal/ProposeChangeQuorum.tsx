@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MultisigDetailsContext from 'context/MultisigDetailsContext';
 
@@ -45,7 +45,7 @@ const ProposeChangeQuorum = ({
   return (
     <div className='d-flex flex-column modal-control-container'>
       <div className='group-center'>
-        <label>{t('Quorum Size')}: </label>
+        <label>{String(t('Quorum Size'))}: </label>
         <input
           style={{ width: 250 }}
           className='form-control'

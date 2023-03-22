@@ -1,6 +1,4 @@
 import React, { useEffect, useMemo } from 'react';
-import { operations } from '@elrondnetwork/dapp-utils';
-import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';

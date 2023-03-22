@@ -1,22 +1,23 @@
 import React from 'react';
-import { Ui } from '@elrondnetwork/dapp-utils';
-import { Address } from '@elrondnetwork/erdjs';
 import {
-  faMinus,
-  faPlus,
-  faPencilAlt,
-  faExternalLinkAlt,
   faChevronCircleDown,
-  faChevronCircleUp
+  faChevronCircleUp,
+  faExternalLinkAlt,
+  faMinus,
+  faPencilAlt,
+  faPlus
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Address } from '@multiversx/sdk-core/out';
+import { Trim } from '@multiversx/sdk-dapp/UI';
 import {
   Accordion,
-  useAccordionToggle,
   Card,
   OverlayTrigger,
-  Tooltip
+  Tooltip,
+  useAccordionButton
 } from 'react-bootstrap';
+
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { ReactComponent as EmptyStateIcon } from 'assets/img/empty-state-icon.svg';
@@ -52,7 +53,7 @@ const MultisigDetailsAccordion = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const decoratedOnClick = useAccordionToggle('0', handleToggleExpanded);
+  const decoratedOnClick = useAccordionButton('0', handleToggleExpanded);
 
   const onAddBoardMember = () =>
     dispatch(
@@ -110,7 +111,11 @@ const MultisigDetailsAccordion = ({
         overlay={(props) => {
           return (
             <Tooltip id={`remove-user-tooltip-${index}`} {...props}>
-              {t('Insufficient quorum size for removing a board member')}
+              <span>
+                {String(
+                  t('Insufficient quorum size for removing a board member')
+                )}
+              </span>
             </Tooltip>
           );
         }}
@@ -124,7 +129,7 @@ const MultisigDetailsAccordion = ({
       <Card.Header key={address.bech32()}>
         <div className='user-item'>
           <span className='address text d-flex'>
-            <Ui.Trim text={address.bech32()} />
+            <Trim text={address.bech32()} />
             <a
               href={`${network.explorerAddress}/accounts/${address.bech32()}`}
               target='_blank'
@@ -175,7 +180,7 @@ const MultisigDetailsAccordion = ({
         <div className=' w-100 no-active-proposals'>
           <p className='d-flex flex-column align-items-center mb-3'>
             <EmptyStateIcon className=' ' />
-            {t('Currently there are no proposers.')}
+            {String(t('Currently there are no proposers.'))}
           </p>
         </div>
       )}
@@ -208,7 +213,7 @@ const MultisigDetailsAccordion = ({
         <div className=' w-100 no-active-proposals'>
           <p className='d-flex flex-column align-items-center mb-3'>
             <EmptyStateIcon className=' ' />
-            {t('Currently there are no proposers.')}
+            {String(t('Currently there are no proposers.'))}
           </p>
         </div>
       )}
@@ -216,7 +221,7 @@ const MultisigDetailsAccordion = ({
   );
   return (
     <Accordion className={'multisig-details-accordion'}>
-      <Accordion.Toggle
+      <Accordion.Item
         onClick={decoratedOnClick}
         as={Card}
         eventKey='0'
@@ -242,9 +247,9 @@ const MultisigDetailsAccordion = ({
           color='orange'
           svg='quorum.svg'
         />
-      </Accordion.Toggle>
+      </Accordion.Item>
 
-      <Accordion.Toggle
+      <Accordion.Item
         eventKey={'0'}
         onClick={decoratedOnClick}
         className={'expand-icon'}
@@ -252,7 +257,7 @@ const MultisigDetailsAccordion = ({
         <FontAwesomeIcon
           icon={expanded ? faChevronCircleUp : faChevronCircleDown}
         />
-      </Accordion.Toggle>
+      </Accordion.Item>
       <div className='owner-actions'>
         <Card>
           <Accordion.Collapse eventKey='0'>

@@ -1,13 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { operations } from '@elrondnetwork/dapp-utils';
-import {
-  Address,
-  Balance,
-  BigUIntValue,
-  BytesValue
-} from '@elrondnetwork/erdjs/out';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';

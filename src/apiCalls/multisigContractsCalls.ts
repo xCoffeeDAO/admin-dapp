@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { getAddress } from '@elrondnetwork/dapp-core';
+import { getAddress } from '@multiversx/sdk-dapp/utils/account/getAddress';
 import axios, { AxiosError } from 'axios';
 import uniqBy from 'lodash/uniqBy';
 import { network } from 'config';
@@ -17,19 +17,6 @@ const multisigAxiosInstance = axios.create();
 
 multisigAxiosInstance.interceptors.request.use(
   async function (config) {
-    try {
-      if (accessTokenServices?.services != null) {
-        const address = await getAddress();
-        const token =
-          await accessTokenServices?.services?.maiarId?.getAccessToken({
-            address,
-            maiarIdApi
-          });
-        config.headers.Authorization = `Bearer ${token.accessToken}`;
-      }
-    } catch (err) {
-      console.error(err);
-    }
     return config;
   },
   function (error: any) {

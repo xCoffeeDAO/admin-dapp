@@ -1,17 +1,14 @@
-import { getChainID } from '@elrondnetwork/dapp-core';
 import {
+  Address,
   ContractFunction,
-  Transaction,
-  TransactionPayload,
-  Balance,
-  GasLimit,
   SmartContract,
-  TypedValue,
-  ChainID,
+  Transaction,
   TransactionOptions,
+  TransactionPayload,
   TransactionVersion,
-  Address
-} from '@elrondnetwork/erdjs';
+  TypedValue
+} from '@multiversx/sdk-core/out';
+import { getChainID } from '@multiversx/sdk-dapp/utils';
 import { gasLimit } from 'config';
 import { providerTypes } from 'helpers/constants';
 import { multisigContractFunctionNames } from '../types/multisigFunctionNames';

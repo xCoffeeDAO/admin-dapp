@@ -1,24 +1,26 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  getNetworkProxy,
-  useGetAccountInfo,
-  useGetNetworkConfig,
-  transactionServices,
-  useGetLoginInfo
-} from '@elrondnetwork/dapp-core';
-import { Ui, operations } from '@elrondnetwork/dapp-utils';
-import { Address, Balance } from '@elrondnetwork/erdjs';
-import {
-  faUser,
   faCalendarAlt,
   faCircleNotch,
+  faExternalLinkAlt,
   faHandPaper,
-  faExternalLinkAlt
+  faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Address } from '@multiversx/sdk-core/out';
+import {
+  useGetAccountInfo,
+  useGetLoginInfo,
+  useGetNetworkConfig,
+  useTrackTransactionStatus
+} from '@multiversx/sdk-dapp/hooks';
+import { Trim, UsdValue } from '@multiversx/sdk-dapp/UI';
+import { denominate } from '@multiversx/sdk-dapp/utils';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
+import BigNumber from 'bignumber.js';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { getAccountData } from 'apiCalls/accountCalls';
 import { getTokenData } from 'apiCalls/tokenCalls';
@@ -30,18 +32,18 @@ import PerformActionModal from 'components/PerformActionModal';
 import ReceiveModal from 'components/ReceiveModal';
 import State from 'components/State';
 import TrustedBadge from 'components/TrustedBadge';
-import { denomination, decimals } from 'config';
+import { decimals, denomination, network } from 'config';
 import MultisigDetailsContext from 'context/MultisigDetailsContext';
 import {
+  mutateDiscardAction,
+  queryActionValidSignerCount,
+  queryAllActions,
+  queryBoardMemberAddresses,
   queryBoardMembersCount,
+  queryProposerAddresses,
   queryProposersCount,
   queryQuorumCount,
-  queryUserRole,
-  queryAllActions,
-  queryActionValidSignerCount,
-  mutateDiscardAction,
-  queryBoardMemberAddresses,
-  queryProposerAddresses
+  queryUserRole
 } from 'contracts/MultisigContract';
 import { hexToNumber, hexToString } from 'helpers/converters';
 import { tryParseTransactionParameter } from 'helpers/urlparameters';
@@ -80,7 +82,7 @@ export interface ContractInfo {
   deployedAt?: string;
   userRole: number;
   allActions: Action[];
-  multisigBalance: Balance;
+  multisigBalance: BigNumber;
   multisigName?: string;
   boardMembersAddresses?: Address[];
   proposersAddresses?: Address[];
@@ -92,7 +94,7 @@ const MultisigDetailsPage = () => {
     totalProposers: 0,
     quorumSize: 0,
     userRole: 0,
-    multisigBalance: Balance.fromString('0'),
+    multisigBalance: new BigNumber(0),
     multisigName: '',
     allActions: [],
     boardMembersAddresses: [],
@@ -134,7 +136,7 @@ const MultisigDetailsPage = () => {
   const isProposer = userRole !== 0;
   const isBoardMember = userRole === 2;
 
-  transactionServices.useTrackTransactionStatus({
+  useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
     onSuccess: getDashboardInfo
   });
@@ -181,7 +183,10 @@ const MultisigDetailsPage = () => {
     if (currentContract == null) {
       return;
     }
-    const proxy = getNetworkProxy();
+    const apiUrl = network.apiAddress;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const provider = new ProxyNetworkProvider(apiUrl);
     try {
       const [
         newTotalBoardMembers,
@@ -198,7 +203,7 @@ const MultisigDetailsPage = () => {
         queryQuorumCount(),
         queryUserRole(new Address(address).hex()),
         queryAllActions(),
-        proxy.getAccount(new Address(currentContract.address)),
+        provider.getAccount(new Address(currentContract.address)),
         queryBoardMemberAddresses(),
         queryProposerAddresses()
       ]);
@@ -404,7 +409,8 @@ const MultisigDetailsPage = () => {
                 <div className='user-role'>
                   <p className='icon'>
                     <FontAwesomeIcon icon={faUser} />
-                    Role: <span className='text'>{t(userRoleAsString)}</span>
+                    Role:{' '}
+                    <span className='text'>{String(t(userRoleAsString))}</span>
                   </p>
                 </div>
                 <div className='wallet-name position-relative'>
@@ -428,7 +434,7 @@ const MultisigDetailsPage = () => {
                     <div className='trust-badge'>
                       <TrustedBadge contractAddress={multisigAddressParam} />
                     </div>
-                    <Ui.Trim text={currentContract.address} />
+                    <Trim text={currentContract.address} />
                     <a
                       href={`${explorerAddress}/accounts/${currentContract.address}`}
                       target='_blank'
@@ -444,7 +450,7 @@ const MultisigDetailsPage = () => {
             <div className='d-flex flex-column action-panel w-100'>
               <div className='balance'>
                 <h2 className='text-center'>
-                  {operations.denominate({
+                  {denominate({
                     input: multisigBalance.toString(),
                     denomination,
                     decimals,
@@ -453,8 +459,8 @@ const MultisigDetailsPage = () => {
                   {egldLabel}
                 </h2>
                 <h5 className='ex-currency text-center'>
-                  <Ui.UsdValue
-                    amount={operations.denominate({
+                  <UsdValue
+                    amount={denominate({
                       input: multisigBalance.toString(),
                       denomination,
                       decimals,
@@ -496,7 +502,7 @@ const MultisigDetailsPage = () => {
                     <div className='d-flex flex-column align-items-center w-100 no-active-proposals'>
                       <NoPoposalsIcon className=' ' />
                       <p className='mb-3'>
-                        {t('Currently there are no active proposals.')}
+                        {String(t('Currently there are no active proposals.'))}
                       </p>
                     </div>
                   ) : (

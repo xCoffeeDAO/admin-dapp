@@ -1,4 +1,3 @@
-import { Address } from '@elrondnetwork/erdjs/out';
 import TransactionParameter from 'types/TransactionParameter';
 
 export async function tryParseTransactionParameter(

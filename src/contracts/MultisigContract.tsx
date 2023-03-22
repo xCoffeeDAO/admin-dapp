@@ -1,31 +1,29 @@
 import {
-  getAccountProviderType,
-  getNetworkProxy,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
-import {
-  ContractFunction,
-  Balance,
   Address,
-  SmartContract,
-  BinaryCodec
-} from '@elrondnetwork/erdjs';
-
-import { CodeMetadata } from '@elrondnetwork/erdjs/out';
-import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
-import { Query } from '@elrondnetwork/erdjs/out/smartcontracts/query';
-import {
   AddressValue,
   BigUIntValue,
+  BinaryCodec,
   BooleanType,
   BooleanValue,
   BytesValue,
+  CodeMetadata,
+  ContractFunction,
+  Query,
+  SmartContract,
   TypedValue,
   U32Type,
   U32Value
-} from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
+} from '@multiversx/sdk-core/out';
+import { NumericalBinaryCodec } from '@multiversx/sdk-core/out/smartcontracts/codec/numerical';
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
+import { getAccountProviderType } from '@multiversx/sdk-dapp/utils';
 import BigNumber from 'bignumber.js';
-import { gasLimit, minGasLimit, issueTokenContractAddress } from 'config';
+import {
+  gasLimit,
+  issueTokenContractAddress,
+  minGasLimit,
+  network
+} from 'config';
 import { parseAction, parseActionDetailed } from 'helpers/converters';
 import { currentMultisigAddressSelector } from 'redux/selectors/multisigContractsSelectors';
 import { MultisigAction } from 'types/MultisigAction';
@@ -60,7 +58,7 @@ export async function sendTransaction(
     transactionGasLimit,
     ...args
   );
-  const { sessionId } = await transactionServices.sendTransactions({
+  const { sessionId } = await sendTransactions({
     transactions: transaction,
     minGasLimit
   });
@@ -228,7 +226,7 @@ export function mutateEsdtSendToken(proposal: MultisigSendToken) {
 
 export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   const esdtAddress = new Address(issueTokenContractAddress);
-  const esdtAmount = new BigUIntValue(Balance.egld(0.05).valueOf());
+  const esdtAmount = new BigUIntValue(new BigNumber(0.05));
 
   const args = [];
   args.push(BytesValue.fromUTF8(proposal.name));
@@ -419,6 +417,7 @@ export async function queryActionContainerArray(
   }
   return actions;
 }
+
 export async function queryAddressArray(
   functionName: string,
   ...args: TypedValue[]
@@ -441,6 +440,9 @@ export async function query(functionName: string, ...args: TypedValue[]) {
     func: new ContractFunction(functionName),
     args: args
   });
-  const proxy = getNetworkProxy();
-  return await proxy.queryContract(newQuery);
+  const apiUrl = network.apiAddress;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const provider = new ProxyNetworkProvider(apiUrl);
+  return await provider.queryContract(newQuery);
 }

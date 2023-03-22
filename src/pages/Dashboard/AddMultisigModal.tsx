@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Address } from '@elrondnetwork/erdjs';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Address } from '@multiversx/sdk-core/out';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import {
@@ -33,9 +33,11 @@ const AddMultisigModal = ({
     setInvalidMultisigAddress(false);
     setAddress(newAddress);
   }
+
   async function onContractNameChange(e: any) {
     setName(e.target.value);
   }
+
   async function onAddClicked() {
     const contractAddress = address.bech32();
     const isAddressValid = await validateMultisigAddress(contractAddress);
@@ -62,7 +64,7 @@ const AddMultisigModal = ({
       <div className='card'>
         <div className='card-body '>
           <p className='h3 text-center' data-testid='delegateTitle'>
-            {t('Add Multisig')}
+            {String(t('Add Multisig'))}
           </p>
           <ProposeInputAddress
             invalidAddress={invalidMultisigAddress}
@@ -70,7 +72,7 @@ const AddMultisigModal = ({
             handleParamsChange={onAddressParamChange}
           />{' '}
           <div className='modal-control-container'>
-            <label>{t('Name (optional)')} </label>
+            <label>{String(t('Name (optional)'))} </label>
             <input
               type='text'
               className='form-control'
@@ -85,14 +87,14 @@ const AddMultisigModal = ({
               className='btn btn-primary btn-light '
             >
               <FontAwesomeIcon icon={faTimes} />
-              {t('Cancel')}
+              {String(t('Cancel'))}
             </button>
             <button
               disabled={submitDisabled}
               onClick={onAddClicked}
               className='btn btn-primary mb-3'
             >
-              {t('Add')}
+              {String(t('Add'))}
             </button>
           </div>
         </div>

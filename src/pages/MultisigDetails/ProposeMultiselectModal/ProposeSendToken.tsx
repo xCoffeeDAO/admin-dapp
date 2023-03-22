@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-
-import { nominate } from '@elrondnetwork/dapp-core';
-import { Address } from '@elrondnetwork/erdjs/out';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { getTokenData } from 'apiCalls/tokenCalls';

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Ui } from '@elrondnetwork/dapp-utils';
-import { Address } from '@elrondnetwork/erdjs/out';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Address } from '@multiversx/sdk-core/out';
+import { Trim } from '@multiversx/sdk-dapp/UI';
 import i18next from 'i18next';
 import ExplorerLink from 'components/ExplorerLink';
 
@@ -25,7 +25,7 @@ export class MultisigAddProposer extends MultisigAction {
     return (
       <>
         <div className='address'>
-          <Ui.Trim text={this.address.bech32()} />
+          <Trim text={this.address.bech32()} />
           <ExplorerLink
             page={`accounts/${this.address.bech32()}`}
             text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}

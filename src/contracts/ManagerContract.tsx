@@ -1,25 +1,15 @@
 import {
-  getAccount,
-  getAddress,
-  getChainID,
-  sendTransactions
-} from '@elrondnetwork/dapp-core';
-import {
   Address,
   AddressValue,
+  Code,
+  CodeMetadata,
+  DeployArguments,
   SmartContract,
   TypedValue,
   U8Value
-} from '@elrondnetwork/erdjs';
-import {
-  Balance,
-  CodeMetadata,
-  DeployArguments,
-  GasLimit,
-  NetworkConfig
-} from '@elrondnetwork/erdjs/out';
-import { Code } from '@elrondnetwork/erdjs/out/smartcontracts/code';
-
+} from '@multiversx/sdk-core/out';
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
+import { getAccount, getAddress, getChainID } from '@multiversx/sdk-dapp/utils';
 import { smartContractCode } from 'helpers/constants';
 
 export const deployContractGasLimit = 400_000_000;
@@ -46,7 +36,7 @@ function getDeployContractTransaction(
   quorum: number,
   boardMembers: AddressValue[]
 ) {
-  NetworkConfig.getDefault().ChainID = getChainID();
+  const chainID = getChainID();
   const contract = new SmartContract({});
   const code = Code.fromBuffer(Buffer.from(smartContractCode, 'hex'));
   const codeMetadata = new CodeMetadata(false, true, true);
@@ -58,7 +48,8 @@ function getDeployContractTransaction(
     codeMetadata,
     initArguments,
     value,
-    gasLimit: new GasLimit(deployContractGasLimit)
+    gasLimit: new GasLimit(deployContractGasLimit),
+    chainID
   };
   return contract.deploy(deployArguments);
 }

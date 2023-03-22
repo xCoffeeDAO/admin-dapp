@@ -1,13 +1,9 @@
 import React from 'react';
-
-import {
-  getIsLoggedIn,
-  logout,
-  useGetAccountInfo
-} from '@elrondnetwork/dapp-core';
-import { Ui } from '@elrondnetwork/dapp-utils';
-import { faUserCircle, faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import { faPowerOff, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { Trim } from '@multiversx/sdk-dapp/UI';
+import { getIsLoggedIn, logout } from '@multiversx/sdk-dapp/utils';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 import { logoutAction } from 'redux/commonActions';
 import { usernameSelector } from 'redux/selectors/accountSelector';
 import { routeNames } from 'routes';
-import { accessTokenServices } from 'services/accessTokenServices';
 
 const Account = () => {
   const { address } = useGetAccountInfo();
@@ -28,7 +23,6 @@ const Account = () => {
   const logOut = async () => {
     document.cookie = '';
     dispatch(logoutAction());
-    accessTokenServices?.services?.maiarId?.removeToken?.();
     localStorage.clear();
     sessionStorage.clear();
     logout(location.origin + routeNames.home, () => navigate(routeNames.home));
@@ -71,7 +65,7 @@ const Account = () => {
               </span>
             ) : (
               <span className='address'>
-                <Ui.Trim text={address} />
+                <Trim text={address} />
               </span>
             )}
           </span>

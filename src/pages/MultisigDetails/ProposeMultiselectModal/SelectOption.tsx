@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Accordion, useAccordionToggle } from 'react-bootstrap';
+import { Accordion, useAccordionButton } from 'react-bootstrap';
 import { ProposalsTypes } from 'types/Proposals';
 
 interface SelectOptionPropsType {
@@ -47,7 +47,7 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
   const [expanded, setExpanded] = useState(false);
   const handleToggleExpanded = () => setExpanded((prev) => !prev);
 
-  const decoratedOnClick = useAccordionToggle('0', handleToggleExpanded);
+  const decoratedOnClick = useAccordionButton('0', handleToggleExpanded);
   return (
     <>
       <div className='card select-options-list modal-action-btns'>
@@ -63,7 +63,7 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
       </div>
       <div className='card select-options-list'>
         <Accordion>
-          <Accordion.Toggle
+          <Accordion.Item
             eventKey={'0'}
             onClick={decoratedOnClick}
             className={'expand-icon advanced-options-toggle mb-2 mt-4'}
@@ -78,7 +78,7 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
               </span>
               <FontAwesomeIcon icon={expanded ? faChevronUp : faChevronDown} />
             </div>
-          </Accordion.Toggle>
+          </Accordion.Item>
           <Accordion.Collapse eventKey='0'>
             <div className={'d-flex flex-column'}>
               {othersAvailableOptions.map((option) => (

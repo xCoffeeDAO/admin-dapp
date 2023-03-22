@@ -1,4 +1,3 @@
-import { Address } from '@elrondnetwork/erdjs';
 import * as Yup from 'yup';
 import { getAccountData } from '../apiCalls/accountCalls';
 

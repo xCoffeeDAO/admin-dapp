@@ -1,11 +1,5 @@
 import React, { useEffect } from 'react';
-import { Address, Balance } from '@elrondnetwork/erdjs/out';
-import {
-  BigUIntValue,
-  BytesValue
-} from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';

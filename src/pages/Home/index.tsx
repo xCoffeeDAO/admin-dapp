@@ -1,5 +1,5 @@
 import React from 'react';
-import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
+import { getIsLoggedIn } from '@multiversx/sdk-dapp/utils';
 import { Link, Navigate } from 'react-router-dom';
 import { ReactComponent as Hero } from 'assets/img/home-img-multisig.svg';
 import shield from 'assets/img/shield-icon.svg';
@@ -8,9 +8,9 @@ import { routeNames } from 'routes';
 
 const Home = () => {
   const loggedIn = getIsLoggedIn();
-  if (loggedIn) {
-    return <Navigate to={routeNames.dashboard} />;
-  }
+  // if (loggedIn) {
+  // return <Navigate to={routeNames.dashboard} />;
+  // }
 
   return (
     <div className='main flex-fill align-items-center container'>
