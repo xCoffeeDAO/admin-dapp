@@ -3,6 +3,8 @@ import { denomination } from '../config';
 import { MultisigAction } from './MultisigAction';
 
 import { MultisigActionType } from './MultisigActionType';
+import { formatAmount } from '@multiversx/sdk-dapp/utils';
+import { Address, BigUIntValue, BytesValue } from '@multiversx/sdk-core/out';
 
 export class MultisigUpgradeContractFromSource extends MultisigAction {
   address: Address;
@@ -43,9 +45,9 @@ export class MultisigUpgradeContractFromSource extends MultisigAction {
   }
 
   description() {
-    const denominatedAmount = operations.denominate({
+    const denominatedAmount = formatAmount({
       input: this.amount.valueOf().toString(),
-      denomination: denomination,
+      digits: denomination,
       decimals: 4,
       showLastNonZeroDecimal: true
     });

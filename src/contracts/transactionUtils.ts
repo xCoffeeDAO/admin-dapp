@@ -10,9 +10,8 @@ import {
   TransactionVersion,
   TypedValue
 } from '@multiversx/sdk-core/out';
-import { GAS_LIMIT } from '@multiversx/sdk-dapp/constants';
 import { getChainID } from '@multiversx/sdk-dapp/utils';
-import { gasLimit } from 'config';
+import { gasLimit, minGasLimit } from 'config';
 import { providerTypes } from 'helpers/constants';
 import { multisigContractFunctionNames } from '../types/multisigFunctionNames';
 
@@ -46,7 +45,7 @@ export function buildTransaction(
     chainID: getChainID(),
     receiver: contract.getAddress(),
     value: TokenPayment.egldFromAmount(value),
-    gasLimit: GAS_LIMIT,
+    gasLimit: minGasLimit,
     data: payload
   };
   if (providerType === providerTypes.ledger) {
@@ -69,7 +68,7 @@ export function buildBlockchainTransaction(
     chainID: getChainID(),
     receiver,
     value: TokenPayment.egldFromAmount(value),
-    gasLimit: GAS_LIMIT,
+    gasLimit: minGasLimit,
     data: new TransactionPayload(data)
   };
 

@@ -16,7 +16,7 @@ import CreateWallet from 'assets/img/create-wallet.svg';
 import OpenWallet from 'assets/img/open-wallet.svg';
 import wawe from 'assets/img/wawe.svg';
 import { providerTypes } from 'helpers/constants';
-import MultisigListItem from 'pages/Dashboard/MultisigListItem';
+import MultisigListItem from 'pages/DashboardOperations/MultisigListItem';
 import {
   multisigContractsFetchedSelector,
   multisigContractsSelector
@@ -25,8 +25,8 @@ import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import { storageApi } from 'services/accessTokenServices';
 import { MultisigContractInfoType } from 'types/multisigContracts';
 import { uniqueContractAddress } from '../../config';
-import AddMultisigModal from './AddMultisigModal';
-import DeployStepsModal from './DeployMultisigModal';
+import AddMultisigModal from '../DashboardOperations/AddMultisigModal';
+import DeployStepsModal from '../DashboardOperations/DeployMultisigModal';
 
 const Dashboard = () => {
   const multisigContracts = useSelector(multisigContractsSelector);

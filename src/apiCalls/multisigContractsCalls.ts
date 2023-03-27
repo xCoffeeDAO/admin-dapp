@@ -1,9 +1,11 @@
+import { logout } from '@multiversx/sdk-dapp/utils';
 import axios, { AxiosError } from 'axios';
 import uniqBy from 'lodash/uniqBy';
 import { network } from 'config';
 import { verifiedContractsHashes } from 'helpers/constants';
 import { storageApi } from 'services/accessTokenServices';
 import { MultisigContractInfoType } from 'types/multisigContracts';
+import { routeNames } from '../routes';
 
 const contractsInfoStorageEndpoint = `${storageApi}/settings/multisig`;
 
@@ -22,8 +24,7 @@ multisigAxiosInstance.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 403) {
-      console.log('Axios request 403. Logging out.');
-      // logout(routeNames.unlock);
+      logout(routeNames.unlock);
     }
     return Promise.reject(error);
   }
@@ -35,7 +36,7 @@ export async function validateMultisigAddress(address: string) {
       `${network.apiAddress}/accounts/${address}`
     );
     const { data } = response;
-    console.log(data);
+
     if (data != null) {
       return verifiedContractsHashes.includes(data?.codeHash);
     }

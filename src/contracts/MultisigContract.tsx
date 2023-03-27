@@ -55,8 +55,6 @@ export async function sendTransaction(
 
   const address = await getAddress();
 
-  console.log(address);
-
   if (address !== null) {
     const providerType = getAccountProviderType();
     const transaction = buildTransaction(
@@ -73,7 +71,6 @@ export async function sendTransaction(
       minGasLimit
     });
 
-    console.log(sessionId);
     store.dispatch(setCurrentMultisigTransactionId(sessionId));
     return sessionId;
   }

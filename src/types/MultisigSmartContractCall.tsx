@@ -1,7 +1,15 @@
 import React from 'react';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Address, BigUIntValue, BytesValue } from '@multiversx/sdk-core/out';
+import {
+  Address,
+  BigUIntType,
+  BigUIntValue,
+  BinaryCodec,
+  BytesValue,
+  U32Type,
+  U32Value
+} from '@multiversx/sdk-core/out';
 import { Denominate, Trim } from '@multiversx/sdk-dapp/UI';
 import i18next from 'i18next';
 import startCase from 'lodash/startCase';
@@ -10,6 +18,7 @@ import { MultisigAction } from './MultisigAction';
 
 import { MultisigActionType } from './MultisigActionType';
 import { multisigContractFunctionNames } from './multisigFunctionNames';
+import { denominate } from '@multiversx/sdk-dapp/utils';
 
 export class MultisigSmartContractCall extends MultisigAction {
   address: Address;
@@ -75,6 +84,7 @@ export class MultisigSmartContractCall extends MultisigAction {
               value={this.amount.valueOf().toString()}
               showLastNonZeroDecimal
               showLabel
+              denomination={decimals}
             />
           </span>
           <span className='mr-1'>{String(i18next.t('to'))}</span>

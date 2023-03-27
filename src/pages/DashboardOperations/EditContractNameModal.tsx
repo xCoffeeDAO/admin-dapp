@@ -35,21 +35,15 @@ const EditContractNameModal = ({
   }
 
   return (
-    <Modal
-      show={show}
-      onHide={onCancel}
-      className='modal-container'
-      animation={false}
-      centered
-    >
+    <Modal show={show} className='modal-container' animation={false} centered>
       <div className='card'>
         <div className='card-body p-spacer '>
           <p className='h3 text-center' data-testid='delegateTitle'>
-            {t('Edit contract name')}
+            {String(t('Edit contract name'))}
           </p>
 
           <div className='modal-control-container'>
-            <label>{t('Name')}: </label>
+            <label>{String(t('Name'))}: </label>
             <input
               onClick={(e) => {
                 e.preventDefault();
@@ -66,10 +60,10 @@ const EditContractNameModal = ({
           <div className='modal-action-btns'>
             <button onClick={onCancel} className='btn btn-primary btn-light '>
               <FontAwesomeIcon icon={faTimes} />
-              {t('Cancel')}
+              {String(t('Cancel'))}
             </button>
             <button onClick={handleConfirm} className='btn btn-primary mb-3'>
-              {t('Confirm')}
+              {String(t('Confirm'))}
             </button>
           </div>
         </div>

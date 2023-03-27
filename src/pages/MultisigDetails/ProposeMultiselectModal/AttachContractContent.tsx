@@ -14,6 +14,7 @@ import { validateContractAddressOwner } from 'helpers/validation';
 import { currentMultisigAddressSelector } from 'redux/selectors/multisigContractsSelectors';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
+import { getAddress } from '@multiversx/sdk-dapp/utils/account/getAddress';
 
 const gasLimit = 10_000_000;
 
@@ -27,6 +28,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
 
   const providerType = getAccountProviderType();
   const currentMultisigAddress = useSelector(currentMultisigAddressSelector);
+  const address = getAddress();
 
   const validationSchema = Yup.object().shape({
     contractAddress: Yup.string()
@@ -38,7 +40,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
     initialValues: {
       contractAddress: ''
     },
-    onSubmit: (values: any) => {
+    onSubmit: async (values: any) => {
       try {
         const data = `ChangeOwnerAddress@${currentMultisigAddress?.hex()}`;
 
@@ -47,9 +49,10 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
           providerType,
           gasLimit,
           new Address(values.contractAddress),
-          data
+          data,
+          Address.fromString(await address)
         );
-        sendTransactions({ transactions: transaction });
+        await sendTransactions({ transactions: transaction });
         handleClose();
       } catch (error) {
         alert('An error occurred, please try again');

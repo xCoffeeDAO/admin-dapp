@@ -2,6 +2,8 @@ import i18next from 'i18next';
 import { denomination } from '../config';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
+import { denominate } from '@multiversx/sdk-dapp/utils';
+import { Address, BigUIntValue, BytesValue } from '@multiversx/sdk-core/out';
 
 export class MultisigDeployContractFromSource extends MultisigAction {
   amount: BigUIntValue;
@@ -44,7 +46,7 @@ export class MultisigDeployContractFromSource extends MultisigAction {
   }
 
   description() {
-    const denominatedAmount = operations.denominate({
+    const denominatedAmount = denominate({
       input: this.amount.valueOf().toString(),
       denomination: denomination,
       decimals: 4,

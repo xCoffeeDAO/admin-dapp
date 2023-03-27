@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Address } from '@multiversx/sdk-core/out';
 import {
   useGetAccountInfo,
-  useGetIsLoggedIn,
   useGetLoginInfo,
   useGetNetworkConfig,
   useTrackTransactionStatus
@@ -90,7 +89,6 @@ export interface ContractInfo {
 }
 
 const MultisigDetailsPage = () => {
-  console.log('in MultisigDetailsPage');
   const [contractInfo, setContractInfo] = useState<ContractInfo>({
     totalBoardMembers: 0,
     totalProposers: 0,
@@ -143,14 +141,8 @@ const MultisigDetailsPage = () => {
     onSuccess: getDashboardInfo
   });
 
-  console.log(useGetIsLoggedIn());
-  console.log(isLoggedIn);
-  console.log(address);
-  console.log(useGetLoginInfo());
-  console.log(useGetAccountInfo());
   useEffect(() => {
     if (!address) {
-      console.log('navigating to unlock');
       navigate(routeNames.unlock);
     }
   }, [isLoggedIn]);
@@ -159,7 +151,6 @@ const MultisigDetailsPage = () => {
     tryParseUrlParams();
 
     const newMultisigAddressParam = parseMultisigAddress();
-    console.log('multisigAddress: ' + multisigAddressParam);
     if (newMultisigAddressParam === null) {
       return;
     }
@@ -284,8 +275,6 @@ const MultisigDetailsPage = () => {
         boardMembersAddresses,
         proposersAddresses
       };
-
-      console.log(newContractInfo);
       setContractInfo(newContractInfo);
     } catch (error) {
       console.error(error);
@@ -322,7 +311,6 @@ const MultisigDetailsPage = () => {
   };
 
   const canSign = (action: MultisigActionDetailed) => {
-    console.log(`can sign: ${isBoardMember && !alreadySigned(action)}`);
     return isBoardMember && !alreadySigned(action);
   };
 
@@ -490,7 +478,15 @@ const MultisigDetailsPage = () => {
                     showLastNonZeroDecimal: true
                   })}{' '}
                   {egldLabel}
+                  {/*{formatAmount({*/}
+                  {/*  input: multisigBalance.toString(),*/}
+                  {/*  decimals: decimals,*/}
+                  {/*  digits: denomination,*/}
+                  {/*  showLastNonZeroDecimal: true*/}
+                  {/*})}{' '}*/}
+                  {/*{egldLabel}*/}
                 </h2>
+
                 <h5 className='ex-currency text-center'>
                   <UsdValue
                     amount={denominate({
@@ -503,6 +499,17 @@ const MultisigDetailsPage = () => {
                     usd={egldPrice}
                   />{' '}
                   USD
+                  {/*<UsdValue*/}
+                  {/*    amount={formatAmount({*/}
+                  {/*      input: multisigBalance.toString(),*/}
+                  {/*      decimals: decimals,*/}
+                  {/*      digits: denomination,*/}
+                  {/*      showLastNonZeroDecimal: true,*/}
+                  {/*      addCommas: false*/}
+                  {/*    })}*/}
+                  {/*    usd={egldPrice}*/}
+                  {/*/>{' '}*/}
+                  {/*USD*/}
                 </h5>
               </div>
               <div className='d-flex justify-content-center actions-btns'>
