@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { getAccountData } from '../apiCalls/accountCalls';
+import { Address } from '@multiversx/sdk-core/out';
 
 export const validateContractAddressOwner =
   (ownerAddress?: Address) =>

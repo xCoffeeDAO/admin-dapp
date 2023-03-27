@@ -17,6 +17,8 @@ import {
 import { NumericalBinaryCodec } from '@multiversx/sdk-core/out/smartcontracts/codec/numerical';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { getAccountProviderType } from '@multiversx/sdk-dapp/utils';
+import { getAddress } from '@multiversx/sdk-dapp/utils/account/getAddress';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import BigNumber from 'bignumber.js';
 import {
   gasLimit,
@@ -34,6 +36,7 @@ import { MultisigSendToken } from 'types/MultisigSendToken';
 import { setCurrentMultisigTransactionId } from '../redux/slices/multisigContractsSlice';
 import { store } from '../redux/store';
 import { buildTransaction } from './transactionUtils';
+import { Buffer } from 'buffer';
 
 const proposeDeployGasLimit = 256_000_000;
 
@@ -49,21 +52,31 @@ export async function sendTransaction(
   const smartContract = new SmartContract({
     address: currentMultisigAddress
   });
-  const providerType = getAccountProviderType();
-  const transaction = buildTransaction(
-    0,
-    functionName,
-    providerType,
-    smartContract,
-    transactionGasLimit,
-    ...args
-  );
-  const { sessionId } = await sendTransactions({
-    transactions: transaction,
-    minGasLimit
-  });
-  store.dispatch(setCurrentMultisigTransactionId(sessionId));
-  return sessionId;
+
+  const address = await getAddress();
+
+  console.log(address);
+
+  if (address !== null) {
+    const providerType = getAccountProviderType();
+    const transaction = buildTransaction(
+      Address.fromString(address),
+      0,
+      functionName,
+      providerType,
+      smartContract,
+      transactionGasLimit,
+      ...args
+    );
+    const { sessionId } = await sendTransactions({
+      transactions: transaction,
+      minGasLimit
+    });
+
+    console.log(sessionId);
+    store.dispatch(setCurrentMultisigTransactionId(sessionId));
+    return sessionId;
+  }
 }
 
 export function mutateSign(actionId: number) {
@@ -371,10 +384,8 @@ export async function queryNumber(
   const result = await query(functionName, ...args);
 
   const codec = new NumericalBinaryCodec();
-  return codec
-    .decodeTopLevel(result.outputUntyped()[0], new U32Type())
-    .valueOf()
-    .toNumber();
+  const buffer = Buffer.from(result.returnData[0], 'base64');
+  return codec.decodeTopLevel(buffer, new U32Type()).valueOf().toNumber();
 }
 
 export async function queryBoolean(
@@ -385,7 +396,10 @@ export async function queryBoolean(
 
   const codec = new BinaryCodec();
   return codec
-    .decodeTopLevel<BooleanValue>(result.outputUntyped()[0], new BooleanType())
+    .decodeTopLevel<BooleanValue>(
+      Buffer.from(result.returnData[0], 'base64'),
+      new BooleanType()
+    )
     .valueOf();
 }
 
@@ -398,7 +412,7 @@ export async function queryActionContainer(
   if (result.returnData.length === 0) {
     return null;
   }
-  const [action] = parseAction(result.outputUntyped()[0]);
+  const [action] = parseAction(Buffer.from(result.returnData[0], 'base64'));
   return action;
 }
 
@@ -409,7 +423,9 @@ export async function queryActionContainerArray(
   const result = await query(functionName, ...args);
 
   const actions = [];
-  for (const buffer of result.outputUntyped()) {
+  for (const base64String of result.returnData) {
+    // Convert the base64 encoded string to a Buffer object
+    const buffer = Buffer.from(base64String, 'base64');
     const action = parseActionDetailed(buffer);
     if (action !== null) {
       actions.push(action);
@@ -424,13 +440,23 @@ export async function queryAddressArray(
 ): Promise<Address[]> {
   const result = await query(functionName, ...args);
 
-  return result.outputUntyped().map((x: Buffer) => new Address(x));
+  // Convert base64 encoded strings to Buffer objects and create Address instances
+  return result.returnData.map(
+    (x: string) => new Address(Buffer.from(x, 'base64'))
+  );
 }
 
-export async function query(functionName: string, ...args: TypedValue[]) {
+export async function query(
+  functionName: string,
+  ...args: TypedValue[]
+): Promise<any> {
   const currentMultisigAddress = currentMultisigAddressSelector(
     store.getState()
   );
+
+  if (!currentMultisigAddress) {
+    throw new Error('Multisig address is not available.');
+  }
 
   const smartContract = new SmartContract({
     address: currentMultisigAddress
@@ -441,6 +467,7 @@ export async function query(functionName: string, ...args: TypedValue[]) {
     args: args
   });
   const apiUrl = network.apiAddress;
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const provider = new ProxyNetworkProvider(apiUrl);

@@ -1,29 +1,34 @@
 import {
   Address,
   ContractFunction,
+  IAddress,
   SmartContract,
+  TokenPayment,
   Transaction,
   TransactionOptions,
   TransactionPayload,
   TransactionVersion,
   TypedValue
 } from '@multiversx/sdk-core/out';
+import { GAS_LIMIT } from '@multiversx/sdk-dapp/constants';
 import { getChainID } from '@multiversx/sdk-dapp/utils';
 import { gasLimit } from 'config';
 import { providerTypes } from 'helpers/constants';
 import { multisigContractFunctionNames } from '../types/multisigFunctionNames';
 
 interface TransactionPayloadType {
-  chainID: ChainID;
-  receiver: Address;
-  value: Balance;
-  gasLimit: GasLimit;
+  sender: IAddress;
+  chainID: string;
+  receiver: IAddress;
+  value: TokenPayment;
+  gasLimit: number;
   data: TransactionPayload;
   options?: TransactionOptions;
   version?: TransactionVersion;
 }
 
 export function buildTransaction(
+  sender: IAddress,
   value: number,
   functionName: multisigContractFunctionNames,
   providerType: string,
@@ -37,10 +42,11 @@ export function buildTransaction(
     .setArgs(args)
     .build();
   const transactionPayload: TransactionPayloadType = {
+    sender: sender,
     chainID: getChainID(),
     receiver: contract.getAddress(),
-    value: Balance.egld(value),
-    gasLimit: new GasLimit(transactionGasLimit),
+    value: TokenPayment.egldFromAmount(value),
+    gasLimit: GAS_LIMIT,
     data: payload
   };
   if (providerType === providerTypes.ledger) {
@@ -55,13 +61,15 @@ export function buildBlockchainTransaction(
   providerType: string,
   transactionGasLimit: number = gasLimit,
   receiver: Address,
-  data: string
+  data: string,
+  sender: IAddress
 ) {
   const transactionPayload: TransactionPayloadType = {
+    sender: sender,
     chainID: getChainID(),
     receiver,
-    value: Balance.egld(value),
-    gasLimit: new GasLimit(transactionGasLimit),
+    value: TokenPayment.egldFromAmount(value),
+    gasLimit: GAS_LIMIT,
     data: new TransactionPayload(data)
   };
 

@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Address } from '@multiversx/sdk-core/out';
 import { Trim } from '@multiversx/sdk-dapp/UI';
+import { network } from 'config';
 import {
   Accordion,
   Card,
@@ -22,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { ReactComponent as EmptyStateIcon } from 'assets/img/empty-state-icon.svg';
 import StatCard from 'components/StatCard';
-import { network } from 'config';
+
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 

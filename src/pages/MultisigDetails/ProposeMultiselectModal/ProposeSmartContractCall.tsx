@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Address, BigUIntValue, BytesValue } from '@multiversx/sdk-core/out';
+import { Denominate } from '@multiversx/sdk-dapp/UI';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +32,7 @@ const ProposeSmartContractCall = ({
 
   const denominatedValue = useMemo(
     () =>
-      operations.denominate({
+      Denominate({
         input: multisigBalance.toString(),
         denomination: denomination,
         decimals: 4,
@@ -101,9 +103,7 @@ const ProposeSmartContractCall = ({
         return null;
       }
 
-      const amountParam = new BigUIntValue(
-        Balance.egld(amountNumeric).valueOf()
-      );
+      const amountParam = new BigUIntValue(amountNumeric);
 
       const argsParams = args.map((arg) => BytesValue.fromHex(arg));
 
@@ -168,7 +168,7 @@ const ProposeSmartContractCall = ({
     if (validatedAmount < 0) {
       formik.setFieldValue('amount', 0);
     }
-    if (validatedAmount > Number(multisigBalance.toDenominated())) {
+    if (validatedAmount > Number(multisigBalance)) {
       return (
         testContext?.createError({
           message:
@@ -197,7 +197,7 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
       />
       <div className='modal-control-container'>
-        <label>{t('Amount')} </label>
+        <label>{String(t('Amount'))} </label>
         <div className='input-wrapper'>
           <Form.Control
             id='amount'
@@ -214,10 +214,10 @@ const ProposeSmartContractCall = ({
             </Form.Control.Feedback>
           )}
         </div>
-        <span>{`Balance: ${denominatedValue} EGLD`} </span>
+        <span>{`Balance: ${multisigBalance} EGLD`} </span>
       </div>
       <div className='modal-control-container'>
-        <label>{t('function name (optional)')} </label>
+        <label>{String(t('function name (optional)'))} </label>
         <div className='input-wrapper'>
           <Form.Control
             id='functionName'

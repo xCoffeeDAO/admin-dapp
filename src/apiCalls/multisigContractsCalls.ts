@@ -1,14 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { getAddress } from '@multiversx/sdk-dapp/utils/account/getAddress';
 import axios, { AxiosError } from 'axios';
 import uniqBy from 'lodash/uniqBy';
 import { network } from 'config';
 import { verifiedContractsHashes } from 'helpers/constants';
-import {
-  accessTokenServices,
-  maiarIdApi,
-  storageApi
-} from 'services/accessTokenServices';
+import { storageApi } from 'services/accessTokenServices';
 import { MultisigContractInfoType } from 'types/multisigContracts';
 
 const contractsInfoStorageEndpoint = `${storageApi}/settings/multisig`;
@@ -41,6 +35,7 @@ export async function validateMultisigAddress(address: string) {
       `${network.apiAddress}/accounts/${address}`
     );
     const { data } = response;
+    console.log(data);
     if (data != null) {
       return verifiedContractsHashes.includes(data?.codeHash);
     }

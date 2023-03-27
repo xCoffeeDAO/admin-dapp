@@ -46,6 +46,7 @@ const Dashboard = () => {
 
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !storageApi) {
+      console.log('uniqueContractAddress', uniqueContractAddress);
       const isValidMultisigContract = await validateMultisigAddress(
         uniqueContractAddress
       );

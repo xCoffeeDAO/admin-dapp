@@ -15,13 +15,13 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { germanTranslations } from 'i18n/de';
 import { englishTranslations } from 'i18n/en';
-import { Unlock } from 'pages/Unlock';
 import { persistor, store } from 'redux/store';
 import Layout from './components/Layout';
 import PageNotFound from './components/PageNotFound';
 
-import { sampleAuthenticatedDomains } from './config';
-import routes, { routeNames } from './routes';
+import { sampleAuthenticatedDomains, walletConnectV2ProjectId } from './config';
+import routes from './routes';
+import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -47,16 +47,23 @@ export default function App() {
         <AxiosInterceptorContext.Interceptor
           authenticatedDomanis={sampleAuthenticatedDomains}
         >
-          <DappProvider environment={'devnet'}>
-            <>
-              <SignTransactionsModals />
-              <TransactionsToastList />
-              <NotificationModal />
-              <Router basename={process.env.PUBLIC_URL}>
-                <PersistGate loading={null} persistor={persistor}>
-                  <Layout>
+          <Router basename={process.env.PUBLIC_URL}>
+            <DappProvider
+              environment={EnvironmentsEnum.devnet}
+              customNetworkConfig={{
+                name: 'customConfig',
+                walletConnectV2ProjectId: walletConnectV2ProjectId
+              }}
+            >
+              <>
+                <Layout>
+                  <AxiosInterceptorContext.Listener />
+                  <SignTransactionsModals />
+                  <TransactionsToastList />
+                  <NotificationModal />
+
+                  <PersistGate loading={null} persistor={persistor}>
                     <Routes>
-                      <Route path={routeNames.unlock} element={<Unlock />} />
                       {routes.map((route, i) => (
                         <Route
                           path={route.path}
@@ -66,11 +73,11 @@ export default function App() {
                       ))}
                       <Route element={<PageNotFound />} />
                     </Routes>
-                  </Layout>
-                </PersistGate>
-              </Router>
-            </>
-          </DappProvider>
+                  </PersistGate>
+                </Layout>
+              </>
+            </DappProvider>
+          </Router>
         </AxiosInterceptorContext.Interceptor>
       </AxiosInterceptorContext.Provider>
     </ReduxProvider>

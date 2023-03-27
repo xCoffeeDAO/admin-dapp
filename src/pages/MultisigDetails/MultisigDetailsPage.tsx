@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Address } from '@multiversx/sdk-core/out';
 import {
   useGetAccountInfo,
+  useGetIsLoggedIn,
   useGetLoginInfo,
   useGetNetworkConfig,
   useTrackTransactionStatus
@@ -89,6 +90,7 @@ export interface ContractInfo {
 }
 
 const MultisigDetailsPage = () => {
+  console.log('in MultisigDetailsPage');
   const [contractInfo, setContractInfo] = useState<ContractInfo>({
     totalBoardMembers: 0,
     totalProposers: 0,
@@ -141,8 +143,14 @@ const MultisigDetailsPage = () => {
     onSuccess: getDashboardInfo
   });
 
+  console.log(useGetIsLoggedIn());
+  console.log(isLoggedIn);
+  console.log(address);
+  console.log(useGetLoginInfo());
+  console.log(useGetAccountInfo());
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!address) {
+      console.log('navigating to unlock');
       navigate(routeNames.unlock);
     }
   }, [isLoggedIn]);
@@ -151,6 +159,7 @@ const MultisigDetailsPage = () => {
     tryParseUrlParams();
 
     const newMultisigAddressParam = parseMultisigAddress();
+    console.log('multisigAddress: ' + multisigAddressParam);
     if (newMultisigAddressParam === null) {
       return;
     }
@@ -177,6 +186,10 @@ const MultisigDetailsPage = () => {
     } catch {
       return null;
     }
+  };
+
+  const isValidIdentifier = (identifier: string) => {
+    return /^[a-zA-Z0-9-_]+$/g.test(identifier);
   };
 
   async function getDashboardInfo() {
@@ -213,12 +226,30 @@ const MultisigDetailsPage = () => {
         const identifier = item.action.getIdentifier();
 
         if (identifier) {
-          const token = await getTokenData(identifier);
+          if (isValidIdentifier(identifier)) {
+            const token = await getTokenData(identifier);
 
-          return {
-            action: item,
-            description: item.action.description(token.decimals)
-          };
+            if (token) {
+              return {
+                action: item,
+                description: item.action.description(token.decimals)
+              };
+            } else {
+              console.error(
+                `Token data not found for identifier: ${identifier}`
+              );
+              return {
+                action: item,
+                description: item.action.description()
+              };
+            }
+          } else {
+            console.error(`Invalid identifier: ${identifier}`);
+            return {
+              action: item,
+              description: item.action.description()
+            };
+          }
         } else {
           return {
             action: item,
@@ -254,6 +285,7 @@ const MultisigDetailsPage = () => {
         proposersAddresses
       };
 
+      console.log(newContractInfo);
       setContractInfo(newContractInfo);
     } catch (error) {
       console.error(error);
@@ -290,6 +322,7 @@ const MultisigDetailsPage = () => {
   };
 
   const canSign = (action: MultisigActionDetailed) => {
+    console.log(`can sign: ${isBoardMember && !alreadySigned(action)}`);
     return isBoardMember && !alreadySigned(action);
   };
 

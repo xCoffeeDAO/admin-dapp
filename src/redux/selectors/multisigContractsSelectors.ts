@@ -1,3 +1,4 @@
+import { Address } from '@multiversx/sdk-core/out/address';
 import { RootState } from '../store';
 import { createDeepEqualSelector } from './helpers';
 

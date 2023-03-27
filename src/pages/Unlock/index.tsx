@@ -1,18 +1,19 @@
 import React from 'react';
 import {
   ExtensionLoginButton,
-  WebWalletLoginButton,
   LedgerLoginButton,
+  OperaWalletLoginButton,
   WalletConnectLoginButton,
-  OperaWalletLoginButton
+  WebWalletLoginButton
 } from '@multiversx/sdk-dapp/UI';
-import { walletConnectV2ProjectId } from 'config';
 import { routeNames } from 'routes';
+import { walletConnectV2ProjectId } from '../../config';
 import { AuthRedirectWrapper } from './AuthRedirectWrapper';
 
 const UnlockPage = () => {
   const commonProps = {
-    callbackRoute: routeNames.dashboard
+    callbackRoute: routeNames.dashboard,
+    nativeAuth: true
   };
 
   return (
@@ -58,4 +59,8 @@ const UnlockPage = () => {
   );
 };
 
-export const Unlock = () => <UnlockPage />;
+export const Unlock = () => (
+  <AuthRedirectWrapper>
+    <UnlockPage />
+  </AuthRedirectWrapper>
+);

@@ -32,6 +32,7 @@ const Account = () => {
     intervalRef.current = setInterval(() => {
       const loggedIn = getIsLoggedIn();
       if (!loggedIn && isLoggedIn === true) {
+        console.log(isLoggedIn);
         window.location.reload();
       }
       if (loggedIn) {
