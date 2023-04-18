@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Ui } from '@elrondnetwork/dapp-utils';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { faExternalLinkAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExternalLinkAlt,
+  faPencilAlt,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Trim } from '@multiversx/sdk-dapp/UI';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -115,7 +118,7 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
               onVerificationComplete={ontTrustVerificationComplete}
               initialValue={contract.isTrusted}
             />
-            <Ui.Trim text={contract.address} />
+            <Trim text={contract.address} />
             <a
               href={`${network.explorerAddress}/accounts/${contract.address}`}
               target='_blank'

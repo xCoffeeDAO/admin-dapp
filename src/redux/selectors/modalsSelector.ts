@@ -1,5 +1,5 @@
-import { RootState } from '../store';
 import { createDeepEqualSelector } from './helpers';
+import { RootState } from '../store';
 
 export const modalsSliceSelector = (state: RootState) => state.modals;
 

@@ -1,4 +1,4 @@
-import { object, string, InferType } from 'yup';
+import { InferType, object, string } from 'yup';
 
 export const dAppName = 'xCoffeeDAO Governance';
 export const decimals = 2;
@@ -23,10 +23,10 @@ export const network: NetworkType = {
   id: 'devnet',
   name: 'Devnet',
   egldLabel: 'xEGLD',
-  walletAddress: 'https://devnet-wallet.elrond.com',
-  apiAddress: 'https://devnet-api.elrond.com',
-  gatewayAddress: 'https://devnet-gateway.elrond.com',
-  explorerAddress: 'http://devnet-explorer.elrond.com'
+  walletAddress: 'https://devnet-wallet.multiversx.com',
+  apiAddress: 'https://devnet-api.multiversx.com',
+  gatewayAddress: 'https://devnet-gateway.multiversx.com',
+  explorerAddress: 'http://devnet-explorer.multiversx.com'
 };
 
 const networkSchema = object({
@@ -46,5 +46,14 @@ networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
 });
 
 //add a valid contract address to make it exclusive, leave empty or null for default behaviour
-export const uniqueContractAddress = '';
+export const uniqueContractAddress =
+  'erd1qqqqqqqqqqqqqpgqf22c6vqq5v96jarn6juc04etcvqnccljp4eqnnjcz5';
+//Optional, if you want to give a name to the visual representation of the contract
 export const uniqueContractName = 'xCoffeeDAO Governance Contract';
+
+export const TOOLS_API_URL = 'https://tools.multiversx.com';
+/**
+ * Calls to these domains will use `nativeAuth` Baerer token
+ */
+export const sampleAuthenticatedDomains = [TOOLS_API_URL];
+export const walletConnectV2ProjectId = 'd425b71aefaf446012364d51cbc7d651';

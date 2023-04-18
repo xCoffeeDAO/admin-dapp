@@ -1,15 +1,11 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { getAddress } from '@elrondnetwork/dapp-core';
+import { logout } from '@multiversx/sdk-dapp/utils';
 import axios, { AxiosError } from 'axios';
 import uniqBy from 'lodash/uniqBy';
 import { network } from 'config';
 import { verifiedContractsHashes } from 'helpers/constants';
-import {
-  accessTokenServices,
-  maiarIdApi,
-  storageApi
-} from 'services/accessTokenServices';
+import { storageApi } from 'services/accessTokenServices';
 import { MultisigContractInfoType } from 'types/multisigContracts';
+import { routeNames } from '../routes';
 
 const contractsInfoStorageEndpoint = `${storageApi}/settings/multisig`;
 
@@ -17,19 +13,6 @@ const multisigAxiosInstance = axios.create();
 
 multisigAxiosInstance.interceptors.request.use(
   async function (config) {
-    try {
-      if (accessTokenServices?.services != null) {
-        const address = await getAddress();
-        const token =
-          await accessTokenServices?.services?.maiarId?.getAccessToken({
-            address,
-            maiarIdApi
-          });
-        config.headers.Authorization = `Bearer ${token.accessToken}`;
-      }
-    } catch (err) {
-      console.error(err);
-    }
     return config;
   },
   function (error: any) {
@@ -41,8 +24,7 @@ multisigAxiosInstance.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 403) {
-      console.log('Axios request 403. Logging out.');
-      // logout(routeNames.unlock);
+      logout(routeNames.unlock);
     }
     return Promise.reject(error);
   }
@@ -54,6 +36,7 @@ export async function validateMultisigAddress(address: string) {
       `${network.apiAddress}/accounts/${address}`
     );
     const { data } = response;
+
     if (data != null) {
       return verifiedContractsHashes.includes(data?.codeHash);
     }

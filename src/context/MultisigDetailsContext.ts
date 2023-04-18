@@ -1,10 +1,10 @@
 import React from 'react';
-import { Balance } from '@elrondnetwork/erdjs/out';
+import BigNumber from 'bignumber.js';
 
 const MultisigDetailsContext = React.createContext({
   quorumSize: 0,
   totalBoardMembers: 0,
-  multisigBalance: Balance.fromString('0'),
+  multisigBalance: new BigNumber('0'),
   isProposer: false
 });
 

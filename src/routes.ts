@@ -1,13 +1,14 @@
 import React from 'react';
-import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
+
+import { RouteType as BaseRoute } from '@multiversx/sdk-dapp/types';
 import { dAppName } from 'config';
-import Unlock from 'pages/Unlock';
+import { Unlock } from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import MultisigDetailsPage from './pages/MultisigDetails/MultisigDetailsPage';
 
-type RouteType = DappCoreRouteTypes & { title: string };
+type RouteType = BaseRoute & { title: string };
 
 export type ForegroundRoutesType =
   | 'unlock'
@@ -33,7 +34,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/multisig/:multisigAddressParam',
     title: 'Multisig',
     component: MultisigDetailsPage,
-    authenticatedRoute: true
+    authenticatedRoute: false
   },
   multisig: {
     path: '/multisig',

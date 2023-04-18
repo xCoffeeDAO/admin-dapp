@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs';
+import { Address } from '@multiversx/sdk-core/out';
 import * as Yup from 'yup';
 import { getAccountData } from '../apiCalls/accountCalls';
 

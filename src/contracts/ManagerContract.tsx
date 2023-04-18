@@ -1,25 +1,17 @@
 import {
-  getAccount,
-  getAddress,
-  getChainID,
-  sendTransactions
-} from '@elrondnetwork/dapp-core';
-import {
   Address,
   AddressValue,
-  SmartContract,
-  TypedValue,
-  U8Value
-} from '@elrondnetwork/erdjs';
-import {
-  Balance,
+  Code,
   CodeMetadata,
   DeployArguments,
-  GasLimit,
-  NetworkConfig
-} from '@elrondnetwork/erdjs/out';
-import { Code } from '@elrondnetwork/erdjs/out/smartcontracts/code';
-
+  SmartContract,
+  TokenPayment,
+  TypedValue,
+  U8Value
+} from '@multiversx/sdk-core/out';
+import { GAS_LIMIT } from '@multiversx/sdk-dapp/constants';
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
+import { getAccount, getAddress, getChainID } from '@multiversx/sdk-dapp/utils';
 import { smartContractCode } from 'helpers/constants';
 
 export const deployContractGasLimit = 400_000_000;
@@ -27,6 +19,11 @@ export const deployContractGasLimit = 400_000_000;
 export async function deployMultisigContract() {
   const address = await getAddress();
   const account = await getAccount(address);
+
+  if (account === null) {
+    throw new Error('Account not found');
+  }
+
   const multisigAddress = SmartContract.computeAddress(
     new Address(address),
     account.nonce as any
@@ -46,19 +43,20 @@ function getDeployContractTransaction(
   quorum: number,
   boardMembers: AddressValue[]
 ) {
-  NetworkConfig.getDefault().ChainID = getChainID();
+  const chainID = getChainID();
   const contract = new SmartContract({});
   const code = Code.fromBuffer(Buffer.from(smartContractCode, 'hex'));
   const codeMetadata = new CodeMetadata(false, true, true);
   const quorumTyped = new U8Value(quorum);
   const initArguments: TypedValue[] = [quorumTyped, ...boardMembers];
-  const value = Balance.Zero();
+  const value = TokenPayment.egldFromAmount(0);
   const deployArguments: DeployArguments = {
     code,
     codeMetadata,
     initArguments,
     value,
-    gasLimit: new GasLimit(deployContractGasLimit)
+    gasLimit: GAS_LIMIT,
+    chainID
   };
   return contract.deploy(deployArguments);
 }

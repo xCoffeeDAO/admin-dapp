@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { getIsProviderEqualTo } from '@elrondnetwork/dapp-core';
 import {
-  faWallet,
+  faArrowRight,
   faPlus,
-  faArrowRight
+  faWallet
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getIsProviderEqualTo } from '@multiversx/sdk-dapp/utils';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,7 @@ import CreateWallet from 'assets/img/create-wallet.svg';
 import OpenWallet from 'assets/img/open-wallet.svg';
 import wawe from 'assets/img/wawe.svg';
 import { providerTypes } from 'helpers/constants';
-import MultisigListItem from 'pages/Dashboard/MultisigListItem';
+import MultisigListItem from 'pages/DashboardOperations/MultisigListItem';
 import {
   multisigContractsFetchedSelector,
   multisigContractsSelector
@@ -25,8 +25,8 @@ import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import { storageApi } from 'services/accessTokenServices';
 import { MultisigContractInfoType } from 'types/multisigContracts';
 import { uniqueContractAddress } from '../../config';
-import AddMultisigModal from './AddMultisigModal';
-import DeployStepsModal from './DeployMultisigModal';
+import AddMultisigModal from '../DashboardOperations/AddMultisigModal';
+import DeployStepsModal from '../DashboardOperations/DeployMultisigModal';
 
 const Dashboard = () => {
   const multisigContracts = useSelector(multisigContractsSelector);
@@ -46,6 +46,7 @@ const Dashboard = () => {
 
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !storageApi) {
+      console.log('uniqueContractAddress', uniqueContractAddress);
       const isValidMultisigContract = await validateMultisigAddress(
         uniqueContractAddress
       );
@@ -80,7 +81,7 @@ const Dashboard = () => {
         <img src={CreateWallet} alt='create-wallet-icon' />
       </figure>
       <p className='action'>
-        {t('Create wallet')}
+        {String(t('Create wallet'))}
         <FontAwesomeIcon icon={faArrowRight} />
       </p>
       <p className='info-text'>Create an organization</p>
@@ -94,7 +95,7 @@ const Dashboard = () => {
       overlay={(props) => {
         return (
           <Tooltip id='deploy-button-tooltip' {...props}>
-            {t('Please use another login method to deploy a contract')}
+            {String(t('Please use another login method to deploy a contract'))}
           </Tooltip>
         );
       }}
@@ -123,7 +124,7 @@ const Dashboard = () => {
       overlay={(props) => {
         return (
           <Tooltip id='deploy-button-tooltip' {...props}>
-            {t('Please use another login method to deploy a contract')}
+            {String(t('Please use another login method to deploy a contract'))}
           </Tooltip>
         );
       }}
@@ -145,13 +146,17 @@ const Dashboard = () => {
         }
       >
         <p className={'h2'}>
-          {t(
-            'The address you provided does not belong to a valid Multisig contract'
+          {String(
+            t(
+              'The address you provided does not belong to a valid Multisig contract'
+            )
           )}
         </p>
         <p className={'h3 mt-5'}>
-          {t(
-            'Please check project configuration in multisigConfig and try again'
+          {String(
+            t(
+              'Please check project configuration in multisigConfig and try again'
+            )
           )}
         </p>
       </div>
@@ -181,7 +186,7 @@ const Dashboard = () => {
                     <img src={OpenWallet} alt='create-wallet-icon' />
                   </figure>
                   <p className='action'>
-                    {t('Open wallet')}
+                    {String(t('Open wallet'))}
                     <FontAwesomeIcon icon={faArrowRight} />
                   </p>
                   <p className='info-text'>

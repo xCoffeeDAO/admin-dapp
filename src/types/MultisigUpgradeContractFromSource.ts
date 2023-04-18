@@ -1,11 +1,10 @@
-import { operations } from '@elrondnetwork/dapp-utils';
-import { BigUIntValue, Address } from '@elrondnetwork/erdjs';
-import { BytesValue } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
+import { Address, BigUIntValue, BytesValue } from '@multiversx/sdk-core/out';
+import { formatAmount } from '@multiversx/sdk-dapp/utils';
 import i18next from 'i18next';
-import { denomination } from '../config';
-import { MultisigAction } from './MultisigAction';
 
+import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
+import { denomination } from '../config';
 
 export class MultisigUpgradeContractFromSource extends MultisigAction {
   address: Address;
@@ -46,14 +45,15 @@ export class MultisigUpgradeContractFromSource extends MultisigAction {
   }
 
   description() {
-    const denominatedAmount = operations.denominate({
+    const denominatedAmount = formatAmount({
       input: this.amount.valueOf().toString(),
-      denomination: denomination,
+      digits: denomination,
       decimals: 4,
       showLastNonZeroDecimal: true
     });
     return `${i18next.t('Amount')}: ${denominatedAmount}`;
   }
+
   tooltip(): string {
     return ` upgradeable: ${this.upgradeable}
  payable: ${this.payable} 

@@ -1,16 +1,17 @@
 import React from 'react';
-import { denominate } from '@elrondnetwork/dapp-core';
-import { Ui } from '@elrondnetwork/dapp-utils';
-import { Address, BinaryCodec } from '@elrondnetwork/erdjs/out';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  Address,
   BigUIntType,
   BigUIntValue,
+  BinaryCodec,
   BytesValue,
   U32Type,
   U32Value
-} from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+} from '@multiversx/sdk-core/out';
+import { Denominate, Trim } from '@multiversx/sdk-dapp/UI';
+import { denominate } from '@multiversx/sdk-dapp/utils';
 import i18next from 'i18next';
 import startCase from 'lodash/startCase';
 import ExplorerLink from 'components/ExplorerLink';
@@ -79,15 +80,16 @@ export class MultisigSmartContractCall extends MultisigAction {
       <>
         <div className='d-flex flex-wrap transaction'>
           <span className='mr-1 text-body'>
-            <Ui.Denominate
+            <Denominate
               value={this.amount.valueOf().toString()}
               showLastNonZeroDecimal
               showLabel
+              denomination={decimals}
             />
           </span>
-          <span className='mr-1'>{i18next.t('to')}</span>
+          <span className='mr-1'>{String(i18next.t('to'))}</span>
           <div className='address'>
-            <Ui.Trim text={this.address.bech32()} />
+            <Trim text={this.address.bech32()} />
             <ExplorerLink
               page={`accounts/${this.address.bech32()}`}
               text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}
