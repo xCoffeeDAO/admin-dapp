@@ -1,4 +1,5 @@
 import React from 'react';
+import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import {
   NotificationModal,
   SignTransactionsModals,
@@ -21,7 +22,6 @@ import PageNotFound from './components/PageNotFound';
 
 import { sampleAuthenticatedDomains, walletConnectV2ProjectId } from './config';
 import routes from './routes';
-import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 
 i18n.use(initReactI18next).init({
   resources: {

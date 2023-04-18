@@ -1,6 +1,6 @@
 import { InferType, object, string } from 'yup';
 
-export const dAppName = 'Multisig';
+export const dAppName = 'xCoffeeDAO Governance';
 export const decimals = 2;
 export const denomination = 18;
 export const gasPrice = 1000000000;
@@ -48,7 +48,7 @@ networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
 export const uniqueContractAddress =
   'erd1qqqqqqqqqqqqqpgqf22c6vqq5v96jarn6juc04etcvqnccljp4eqnnjcz5';
 //Optional, if you want to give a name to the visual representation of the contract
-export const uniqueContractName = 'xCoffeeDAO Multisig';
+export const uniqueContractName = 'xCoffeeDAO Governance Contract';
 
 export const TOOLS_API_URL = 'https://tools.multiversx.com';
 /**

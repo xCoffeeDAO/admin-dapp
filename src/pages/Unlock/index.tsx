@@ -7,8 +7,9 @@ import {
   WebWalletLoginButton
 } from '@multiversx/sdk-dapp/UI';
 import { routeNames } from 'routes';
-import { walletConnectV2ProjectId } from '../../config';
+
 import { AuthRedirectWrapper } from './AuthRedirectWrapper';
+import { walletConnectV2ProjectId } from '../../config';
 
 const UnlockPage = () => {
   const commonProps = {

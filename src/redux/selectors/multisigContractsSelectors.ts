@@ -1,6 +1,7 @@
 import { Address } from '@multiversx/sdk-core/out/address';
-import { RootState } from '../store';
+
 import { createDeepEqualSelector } from './helpers';
+import { RootState } from '../store';
 
 const mainSelector = (state: RootState) => state.multisigContracts;
 

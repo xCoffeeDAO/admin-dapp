@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import {
   Address,
   AddressValue,
@@ -33,10 +34,9 @@ import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
 import { multisigContractFunctionNames } from 'types/multisigFunctionNames';
 import { MultisigIssueToken } from 'types/MultisigIssueToken';
 import { MultisigSendToken } from 'types/MultisigSendToken';
+import { buildTransaction } from './transactionUtils';
 import { setCurrentMultisigTransactionId } from '../redux/slices/multisigContractsSlice';
 import { store } from '../redux/store';
-import { buildTransaction } from './transactionUtils';
-import { Buffer } from 'buffer';
 
 const proposeDeployGasLimit = 256_000_000;
 

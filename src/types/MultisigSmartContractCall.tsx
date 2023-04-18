@@ -11,6 +11,7 @@ import {
   U32Value
 } from '@multiversx/sdk-core/out';
 import { Denominate, Trim } from '@multiversx/sdk-dapp/UI';
+import { denominate } from '@multiversx/sdk-dapp/utils';
 import i18next from 'i18next';
 import startCase from 'lodash/startCase';
 import ExplorerLink from 'components/ExplorerLink';
@@ -18,7 +19,6 @@ import { MultisigAction } from './MultisigAction';
 
 import { MultisigActionType } from './MultisigActionType';
 import { multisigContractFunctionNames } from './multisigFunctionNames';
-import { denominate } from '@multiversx/sdk-dapp/utils';
 
 export class MultisigSmartContractCall extends MultisigAction {
   address: Address;

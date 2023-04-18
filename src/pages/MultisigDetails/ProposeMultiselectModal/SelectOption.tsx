@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Accordion, useAccordionButton } from 'react-bootstrap';
 import { ProposalsTypes } from 'types/Proposals';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 interface SelectOptionPropsType {
   onSelected: (option: ProposalsTypes) => void;

@@ -11,7 +11,7 @@ import {
   TypedValue
 } from '@multiversx/sdk-core/out';
 import { getChainID } from '@multiversx/sdk-dapp/utils';
-import { gasLimit, minGasLimit } from 'config';
+import { minGasLimit } from 'config';
 import { providerTypes } from 'helpers/constants';
 import { multisigContractFunctionNames } from '../types/multisigFunctionNames';
 
@@ -32,7 +32,6 @@ export function buildTransaction(
   functionName: multisigContractFunctionNames,
   providerType: string,
   contract: SmartContract,
-  transactionGasLimit: number,
   ...args: TypedValue[]
 ): Transaction {
   const func = new ContractFunction(functionName);
@@ -58,7 +57,6 @@ export function buildTransaction(
 export function buildBlockchainTransaction(
   value: number,
   providerType: string,
-  transactionGasLimit: number = gasLimit,
   receiver: Address,
   data: string,
   sender: IAddress

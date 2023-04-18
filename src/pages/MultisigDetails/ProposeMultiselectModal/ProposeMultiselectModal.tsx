@@ -26,7 +26,6 @@ import { MultisigSendToken } from 'types/MultisigSendToken';
 import { MultisigSmartContractCall } from 'types/MultisigSmartContractCall';
 import { MultisigUpgradeContractFromSource } from 'types/MultisigUpgradeContractFromSource';
 import { ProposalsTypes, SelectedOptionType } from 'types/Proposals';
-import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
 import ProposeDeployContractFromSource from './ProposeDeployContractFromSource';
 import ProposeIssueToken from './ProposeIssueToken';
@@ -36,6 +35,7 @@ import ProposeSendToken from './ProposeSendToken';
 import ProposeSmartContractCall from './ProposeSmartContractCall';
 import ProposeUpgradeContractFromSource from './ProposeUpgradeContractFromSource';
 import SelectOption from './SelectOption';
+import { titles } from '../constants';
 
 import './proposeMultiselectModal.scss';
 

@@ -65,10 +65,10 @@ import {
 import { setCurrentMultisigContract } from 'redux/slices/multisigContractsSlice';
 import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
 import { ProposalsTypes } from 'types/Proposals';
-import { routeNames } from '../../routes';
 import MultisigDetailsAccordion from './MultisigDetailsAccordion';
 import ProposeModal from './ProposeModal/ProposeModal';
 import ProposeMultiselectModal from './ProposeMultiselectModal/ProposeMultiselectModal';
+import { routeNames } from '../../routes';
 
 interface Action {
   description: string;

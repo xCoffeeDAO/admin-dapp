@@ -83,7 +83,7 @@
     "prettier/prettier": [
       "error",
       {
-        "endOfLine": "lf"
+        "endOfLine": "auto"
       }
     ],
     "@typescript-eslint/indent": "off",
@@ -95,10 +95,7 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "react/prop-types": "off",
     "react/display-name": "off",
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
+    "linebreak-style": 0,
     "quotes": [
       "error",
       "single"

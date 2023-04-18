@@ -11,10 +11,9 @@ import { setAccountData } from 'redux/slices/accountSlice';
 import { setEconomics } from 'redux/slices/economicsSlice';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import routes, { routeNames } from 'routes';
-import { accessTokenServices, storageApi } from 'services/accessTokenServices';
-import { uniqueContractAddress, uniqueContractName } from '../../config';
-import { TokenWrapper } from '../TokenWrapper';
+import { storageApi } from 'services/accessTokenServices';
 import Navbar from './Navbar';
+import { uniqueContractAddress, uniqueContractName } from '../../config';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();

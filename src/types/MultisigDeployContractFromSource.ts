@@ -1,9 +1,10 @@
+import { Address, BigUIntValue, BytesValue } from '@multiversx/sdk-core/out';
+import { denominate } from '@multiversx/sdk-dapp/utils';
 import i18next from 'i18next';
-import { denomination } from '../config';
+
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
-import { denominate } from '@multiversx/sdk-dapp/utils';
-import { Address, BigUIntValue, BytesValue } from '@multiversx/sdk-core/out';
+import { denomination } from '../config';
 
 export class MultisigDeployContractFromSource extends MultisigAction {
   amount: BigUIntValue;

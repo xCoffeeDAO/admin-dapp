@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Address } from '@multiversx/sdk-core/out';
 import { sendTransactions } from '@multiversx/sdk-dapp/services/transactions/sendTransactions';
 import { getAccountProviderType } from '@multiversx/sdk-dapp/utils/account/getAccountProviderType';
+import { getAddress } from '@multiversx/sdk-dapp/utils/account/getAddress';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +15,6 @@ import { validateContractAddressOwner } from 'helpers/validation';
 import { currentMultisigAddressSelector } from 'redux/selectors/multisigContractsSelectors';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
-import { getAddress } from '@multiversx/sdk-dapp/utils/account/getAddress';
 
 const gasLimit = 10_000_000;
 
