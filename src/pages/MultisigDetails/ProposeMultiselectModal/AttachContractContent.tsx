@@ -1,11 +1,10 @@
 import React from 'react';
-import {
-  getAccountProviderType,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
-import { Address } from '@elrondnetwork/erdjs';
 import { faArrowLeft, faLink } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Address } from '@multiversx/sdk-core/out';
+import { sendTransactions } from '@multiversx/sdk-dapp/services/transactions/sendTransactions';
+import { getAccountProviderType } from '@multiversx/sdk-dapp/utils/account/getAccountProviderType';
+import { getAddress } from '@multiversx/sdk-dapp/utils/account/getAddress';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
@@ -22,12 +21,14 @@ const gasLimit = 10_000_000;
 interface AttachContractContentProps {
   handleClose: () => void;
 }
+
 const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const providerType = getAccountProviderType();
   const currentMultisigAddress = useSelector(currentMultisigAddressSelector);
+  const address = getAddress();
 
   const validationSchema = Yup.object().shape({
     contractAddress: Yup.string()
@@ -39,7 +40,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
     initialValues: {
       contractAddress: ''
     },
-    onSubmit: (values: any) => {
+    onSubmit: async (values: any) => {
       try {
         const data = `ChangeOwnerAddress@${currentMultisigAddress?.hex()}`;
 
@@ -48,9 +49,10 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
           providerType,
           gasLimit,
           new Address(values.contractAddress),
-          data
+          data,
+          Address.fromString(await address)
         );
-        transactionServices.sendTransactions({ transactions: transaction });
+        await sendTransactions({ transactions: transaction });
         handleClose();
       } catch (error) {
         alert('An error occurred, please try again');
@@ -78,11 +80,11 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
     <div className='card attach-contract-content'>
       <div className='card-body'>
         <p className='h3 mb-spacer text-center' data-testid='delegateTitle'>
-          {t('Attach smart contract')}
+          {String(t('Attach smart contract'))}
         </p>
 
         <div className='modal-control-container'>
-          <label>{t('Contract address')} </label>
+          <label>{String(t('Contract address'))} </label>
           <div className='input-wrapper'>
             <Form.Control
               id='contractAddress'
@@ -107,7 +109,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
           className='btn btn-primary btn-light '
         >
           <FontAwesomeIcon icon={faArrowLeft} />
-          {t('Back')}
+          {String(t('Back'))}
         </button>
         <button
           disabled={contractAddressError != null}
@@ -115,7 +117,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
           className='btn btn-primary '
         >
           <FontAwesomeIcon icon={faLink} />
-          {t('Attach')}
+          {String(t('Attach'))}
         </button>
       </div>
     </div>

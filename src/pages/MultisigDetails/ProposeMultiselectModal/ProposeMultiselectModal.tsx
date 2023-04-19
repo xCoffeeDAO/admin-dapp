@@ -9,12 +9,12 @@ import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import {
+  mutateDeployContractFromSource,
+  mutateEsdtIssueToken,
+  mutateEsdtSendToken,
   mutateSendEgld,
   mutateSmartContractCall,
-  mutateDeployContractFromSource,
-  mutateUpgradeContractFromSource,
-  mutateEsdtIssueToken,
-  mutateEsdtSendToken
+  mutateUpgradeContractFromSource
 } from 'contracts/MultisigContract';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { MultisigAction } from 'types/MultisigAction';
@@ -26,7 +26,6 @@ import { MultisigSendToken } from 'types/MultisigSendToken';
 import { MultisigSmartContractCall } from 'types/MultisigSmartContractCall';
 import { MultisigUpgradeContractFromSource } from 'types/MultisigUpgradeContractFromSource';
 import { ProposalsTypes, SelectedOptionType } from 'types/Proposals';
-import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
 import ProposeDeployContractFromSource from './ProposeDeployContractFromSource';
 import ProposeIssueToken from './ProposeIssueToken';
@@ -36,6 +35,7 @@ import ProposeSendToken from './ProposeSendToken';
 import ProposeSmartContractCall from './ProposeSmartContractCall';
 import ProposeUpgradeContractFromSource from './ProposeUpgradeContractFromSource';
 import SelectOption from './SelectOption';
+import { titles } from '../constants';
 
 import './proposeMultiselectModal.scss';
 
@@ -159,7 +159,7 @@ const ProposeMultiselectModal = ({
       className='btn btn-primary '
     >
       <FontAwesomeIcon icon={faHandPaper} />
-      {t('Propose')}
+      {String(t('Propose'))}
     </button>
   );
 
@@ -171,14 +171,14 @@ const ProposeMultiselectModal = ({
       className='btn btn-primary btn-light '
     >
       <FontAwesomeIcon icon={faArrowLeft} />
-      {t('Back')}
+      {String(t('Back'))}
     </button>
   );
 
   const closeButton = (
     <button onClick={handleClose} className='btn btn-primary btn-light '>
       <FontAwesomeIcon icon={faTimes} />
-      {t('Cancel')}
+      {String(t('Cancel'))}
     </button>
   );
   const cancelButton =

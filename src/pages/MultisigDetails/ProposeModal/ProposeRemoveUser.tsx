@@ -1,5 +1,5 @@
 import React from 'react';
-import { Address } from '@elrondnetwork/erdjs';
+import { Address } from '@multiversx/sdk-core/out';
 import { useTranslation } from 'react-i18next';
 import { SelectedOptionType } from 'types/Proposals';
 
@@ -26,7 +26,7 @@ const ProposeRemoveUser = ({
 
   return (
     <div className='modal-control-container'>
-      <label>{t('Address')} </label>
+      <label>{String(t('Address'))} </label>
       <div
         className='h6 mb-spacer text-break remove-user'
         data-testid='delegateSubTitle'

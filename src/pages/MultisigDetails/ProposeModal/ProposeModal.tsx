@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Address } from '@elrondnetwork/erdjs/out';
 import { faHandPaper, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Address } from '@multiversx/sdk-core/out';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import {
-  mutateProposeChangeQuorum,
-  mutateProposeAddProposer,
   mutateProposeAddBoardMember,
+  mutateProposeAddProposer,
+  mutateProposeChangeQuorum,
   mutateProposeRemoveUser
 } from 'contracts/MultisigContract';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
@@ -123,7 +123,7 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
                 className='btn btn-primary btn-light '
               >
                 <FontAwesomeIcon icon={faTimes} />
-                {t('Cancel')}
+                {String(t('Cancel'))}
               </button>
               <button
                 disabled={submitDisabled}
@@ -131,7 +131,7 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
                 className='btn btn-primary '
               >
                 <FontAwesomeIcon icon={faHandPaper} />
-                {t('Propose')}
+                {String(t('Propose'))}
               </button>
             </div>
           </div>

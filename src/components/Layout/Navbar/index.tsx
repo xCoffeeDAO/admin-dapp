@@ -1,16 +1,19 @@
 import React from 'react';
-import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
+import { getIsLoggedIn } from '@multiversx/sdk-dapp/utils';
 import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import { dAppName, uniqueContractAddress } from 'config';
 import { routeNames } from 'routes';
 import Account from './Account';
+import logo from '../../../assets/img/logo.png';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const loggedIn = getIsLoggedIn();
+
+  //same as presentation dApp
+  const isMobile = window.innerWidth < 769;
 
   const handleRedirectToHome = () => {
     const route = uniqueContractAddress
@@ -27,7 +30,12 @@ const Navbar = () => {
           onClick={handleRedirectToHome}
           className='d-flex align-items-center nav-logo'
         >
-          <ElrondLogo className='elrond-logo' />
+          <img
+            id='site-logo'
+            src={logo}
+            width={isMobile ? '100px' : '150px'}
+            alt='xCoffeeDAO'
+          />
           <span className='dapp-name'>{dAppName}</span>
         </NavItem>
 

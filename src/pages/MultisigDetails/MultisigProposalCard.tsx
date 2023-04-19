@@ -1,23 +1,23 @@
 import React from 'react';
-import { Address } from '@elrondnetwork/erdjs/out';
 import {
+  faCheck,
   faInfoCircle,
-  faTimes,
   faThumbsUp,
-  faCheck
+  faTimes
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Address } from '@multiversx/sdk-core/out';
 import {
-  CircularProgressbarWithChildren,
-  buildStyles
+  buildStyles,
+  CircularProgressbarWithChildren
 } from 'react-circular-progressbar';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import MultisigDetailsContext from 'context/MultisigDetailsContext';
 import {
+  mutateDiscardAction,
   mutateSign,
-  mutateUnsign,
-  mutateDiscardAction
+  mutateUnsign
 } from 'contracts/MultisigContract';
 import { setSelectedPerformedAction } from 'redux/slices/modalsSlice';
 
@@ -111,13 +111,13 @@ const MultisigProposalCard = ({
           {canSign && (
             <button onClick={sign} className='btn action sign'>
               <FontAwesomeIcon icon={faThumbsUp} />
-              <span>{t('Approve')} </span>
+              <span>{String(t('Approve'))} </span>
             </button>
           )}
           {canUnsign && (
             <button onClick={unsign} className='btn  action unsign '>
               <FontAwesomeIcon icon={faTimes} />
-              <span>{t('Withdraw')}</span>
+              <span>{String(t('Withdraw'))}</span>
             </button>
           )}
           {canPerformAction && (
@@ -127,7 +127,7 @@ const MultisigProposalCard = ({
               className='btn action perform '
             >
               <FontAwesomeIcon icon={faCheck} />
-              {t('Perform')}
+              {String(t('Perform'))}
             </button>
           )}
           {canDiscardAction && (
@@ -137,7 +137,7 @@ const MultisigProposalCard = ({
               className='btn action remove'
             >
               <FontAwesomeIcon icon={faTimes} />
-              {t('Discard')}
+              {String(t('Discard'))}
             </button>
           )}
         </div>

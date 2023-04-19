@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { Address } from '@multiversx/sdk-core/out';
+import { nominate } from '@multiversx/sdk-dapp/utils';
 
-import { nominate } from '@elrondnetwork/dapp-core';
-import { Address } from '@elrondnetwork/erdjs/out';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { getTokenData } from 'apiCalls/tokenCalls';
@@ -86,7 +86,7 @@ const ProposeSendToken = ({ handleChange }: ProposeSendTokenType) => {
   return (
     <div>
       <div className='modal-control-container'>
-        <label>{t('Address')}: </label>
+        <label>{String(t('Address'))}: </label>
         <input
           type='text'
           className='form-control'
@@ -96,7 +96,7 @@ const ProposeSendToken = ({ handleChange }: ProposeSendTokenType) => {
         />
       </div>
       <div className='modal-control-container'>
-        <label>{t('Identifier')}: </label>
+        <label>{String(t('Identifier'))}: </label>
         <input
           type='text'
           className={classNames('form-control', {
@@ -110,7 +110,7 @@ const ProposeSendToken = ({ handleChange }: ProposeSendTokenType) => {
         {Boolean(decimals) && <span className='mt-2'>{decimals} decimals</span>}
       </div>
       <div className='modal-control-container'>
-        <label>{t('Amount')}: </label>
+        <label>{String(t('Amount'))}: </label>
         <input
           type='number'
           className='form-control'

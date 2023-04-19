@@ -1,12 +1,8 @@
 import React from 'react';
-import { Ui } from '@elrondnetwork/dapp-utils';
-import { Address } from '@elrondnetwork/erdjs/out';
-import {
-  BigUIntValue,
-  BytesValue
-} from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Address, BigUIntValue, BytesValue } from '@multiversx/sdk-core/out';
+import { Denominate, Trim } from '@multiversx/sdk-dapp/UI';
 import i18next from 'i18next';
 import ExplorerLink from 'components/ExplorerLink';
 import { MultisigAction } from './MultisigAction';
@@ -49,15 +45,16 @@ export class MultisigSendEgld extends MultisigAction {
       <>
         <div className='d-flex flex-wrap transaction'>
           <span className='mr-1 text-body'>
-            <Ui.Denominate
+            <Denominate
               value={this.amount.valueOf().toString()}
               showLastNonZeroDecimal
               showLabel
             />
           </span>
-          <span className='mr-1'>{i18next.t('to')}</span>
+          <span className='mr-1'>{String(i18next.t('to'))}</span>
+
           <div className='address'>
-            <Ui.Trim text={this.address.bech32()} />
+            <Trim text={this.address.bech32()} />
             <ExplorerLink
               page={`accounts/${this.address.bech32()}`}
               text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}

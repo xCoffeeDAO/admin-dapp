@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
-import { operations } from '@elrondnetwork/dapp-utils';
-import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
+import { Denominate } from '@multiversx/sdk-dapp/UI';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +30,7 @@ const ProposeSendEgld = ({
 
   const denominatedValue = useMemo(
     () =>
-      operations.denominate({
+      Denominate({
         input: multisigBalance.toString(),
         denomination: denomination,
         decimals: 4,
@@ -87,9 +87,7 @@ const ProposeSendEgld = ({
         return null;
       }
 
-      const amountParam = new BigUIntValue(
-        Balance.egld(amountNumeric).valueOf()
-      );
+      const amountParam = new BigUIntValue(amountNumeric);
 
       return new MultisigSendEgld(addressParam, amountParam, data);
     } catch (err) {
@@ -131,7 +129,7 @@ const ProposeSendEgld = ({
     if (newAmount < 0) {
       formik.setFieldValue('amount', 0);
     }
-    if (newAmount > Number(multisigBalance.toDenominated())) {
+    if (newAmount > Number(multisigBalance)) {
       return (
         testContext?.createError({
           message:
@@ -155,7 +153,7 @@ const ProposeSendEgld = ({
         handleBlur={formik.handleBlur}
       />
       <div className='modal-control-container'>
-        <label>{t('Amount')} </label>
+        <label>{String(t('Amount'))} </label>
         <div className='input-wrapper'>
           <Form.Control
             id='amount'
@@ -172,10 +170,10 @@ const ProposeSendEgld = ({
             </Form.Control.Feedback>
           )}
         </div>
-        <span>{`Balance: ${denominatedValue} EGLD`} </span>
+        <span>{`Balance: ${multisigBalance} EGLD`} </span>
       </div>
       <div className='modal-control-container'>
-        <label>{t('data (optional)')} </label>
+        <label>{String(t('data (optional)'))} </label>
         <Form.Control
           id='data'
           name='data'
