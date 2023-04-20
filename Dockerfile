@@ -6,7 +6,7 @@ RUN touch .env
 COPY . .
 RUN npm rebuild node-sass
 RUN npm run copy-${CONFIG_SETUP}-config
-RUN npm install
+RUN npm install --legacy-peer-deps
 RUN npm run build
 
 
