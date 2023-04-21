@@ -13,7 +13,7 @@ import { walletConnectV2ProjectId } from '../../config';
 
 const UnlockPage = () => {
   const commonProps = {
-    callbackRoute: routeNames.dashboard,
+    callbackRoute: routeNames.home,
     nativeAuth: true
   };
 
